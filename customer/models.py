@@ -13,14 +13,20 @@ class Booking(models.Model):
     Time = models.TimeField()
     paymentmethod = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.order_status
+    
+
 class BookingItem(models.Model):
     order = models.ForeignKey(Booking,on_delete=models.CASCADE)
     food = models.ForeignKey(Item,on_delete=models.DO_NOTHING)
     quantity = models.IntegerField()
 
+    def __str__(self):
+        return self.food
 
 class Rating(models.Model):
     restaurant  = models.ForeignKey(Restaurant,on_delete=models.DO_NOTHING)
     user = models.ForeignKey(User,on_delete=models.DO_NOTHING)
-    rating = models.IntegerField(max_length=1,validators=[MaxValueValidator(5),
+    rating = models.IntegerField(validators=[MaxValueValidator(5),
         MinValueValidator(0)])

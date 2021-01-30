@@ -23,11 +23,15 @@ class Restaurant(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,blank=True,null=True)
     # logo and pics for the restaurent is needed here
 
+    def __str__(self):
+        return self.name
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
     shop = models.ForeignKey(Restaurant,on_delete=models.CASCADE,blank=True,null=True)
 
+    def __str__(self):
+        return self.name
 
 class Item(models.Model):
     name = models.CharField(max_length=50)
@@ -35,3 +39,6 @@ class Item(models.Model):
     category = models.ForeignKey(Category,on_delete=models.CASCADE,blank=True,null=True)
     # image fierld required
     created_by = models.ForeignKey(User,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
