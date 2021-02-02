@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your models here.
 class RestCategory(models.Model):
@@ -7,6 +8,12 @@ class RestCategory(models.Model):
 
     def __str__(self):
         return self.name
+    def get_update_url(self):
+        return reverse("restcatupdate",kwargs={'pk':self.pk})
+    
+    def get_absolute_url(self):
+        return reverse("", kwargs={"pk": self.pk})
+    
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=100)
@@ -26,6 +33,9 @@ class Restaurant(models.Model):
     def __str__(self):
         return self.name
 
+    def get_update_url(self):
+        return reverse("",kwargs={'pk':self.pk})
+
 class Category(models.Model):
     name = models.CharField(max_length=50)
     shop = models.ForeignKey(Restaurant,on_delete=models.CASCADE,blank=True,null=True)
@@ -33,6 +43,12 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    def get_update_url(self):
+        return reverse("",kwargs={'pk':self.pk})
+
+    def get_absolute_url(self):
+        return reverse("", kwargs={"pk": self.pk})
+    
 class Item(models.Model):
     name = models.CharField(max_length=50)
     price =models.FloatField()
@@ -42,3 +58,10 @@ class Item(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_update_url(self):
+        return reverse("",kwargs={'pk':self.pk})
+
+    def get_absolute_url(self):
+        return reverse("", kwargs={"pk": self.pk})
+    

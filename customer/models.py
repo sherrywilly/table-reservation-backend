@@ -8,7 +8,7 @@ class Booking(models.Model):
     restaurant  = models.ForeignKey(Restaurant,on_delete=models.DO_NOTHING)
     user = models.ForeignKey(User,on_delete=models.DO_NOTHING)
     order_status = models.CharField(max_length = 10)
-    guest = models.IntegerField()
+    guest = models.IntegerField(validators=[MinValueValidator(1),])
     date = models.DateField()
     Time = models.TimeField()
     paymentmethod = models.CharField(max_length=100)
@@ -30,3 +30,5 @@ class Rating(models.Model):
     user = models.ForeignKey(User,on_delete=models.DO_NOTHING)
     rating = models.IntegerField(validators=[MaxValueValidator(5),
         MinValueValidator(0)])
+
+    
