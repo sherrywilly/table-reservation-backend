@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.template.defaultfilters import slugify
 
 # Create your models here.
 class RestCategory(models.Model):
@@ -28,13 +29,18 @@ class Restaurant(models.Model):
     closstime = models.TimeField()
     seatingCapacity = models.IntegerField()
     user = models.OneToOneField(User,on_delete=models.CASCADE,blank=True,null=True)
+    slug = models.SlugField(unique=True,blank=True,null=True)
     # logo and pics for the restaurent is needed here
 
+    def save(self,*args, **kwargs):
+        self.slug = slugify(self.name)
+        return super(Restaurant,self).save(*args, **kwargs)
+    
     def __str__(self):
         return self.name
 
     def get_update_url(self):
-        return reverse("",kwargs={'pk':self.pk})
+        return reverse("restaurantupdate",kwargs={'pk':self.pk})
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
@@ -44,10 +50,14 @@ class Category(models.Model):
         return self.name
 
     def get_update_url(self):
-        return reverse("",kwargs={'pk':self.pk})
+        return reverse("catupdate",kwargs={'pk':self.pk,'slug':self.shop.slug})
 
-    def get_absolute_url(self):
-        return reverse("", kwargs={"pk": self.pk})
+    # def get_absolute_url(self):
+    #     return reverse("", kwargs={"pk": self.pk})
+    
+    def get_items():
+        _x = self.item_set.all()
+        return _x
     
 class Item(models.Model):
     name = models.CharField(max_length=50)
