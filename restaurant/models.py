@@ -41,6 +41,10 @@ class Restaurant(models.Model):
 
     def get_update_url(self):
         return reverse("restaurantupdate",kwargs={'pk':self.pk})
+    
+    
+    def get_detail_url(self):
+        return reverse("rester",kwargs={'slug':self.slug})
 
 class Category(models.Model):
     name = models.CharField(max_length=50)

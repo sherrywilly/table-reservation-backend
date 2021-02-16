@@ -1,5 +1,5 @@
 from django.urls import path
-from restaurant.views import CategoryCreate, CategoryList, CategoryUpdate, RestCategoryCreate, RestCategoryList, RestCategoryUpdate, RestaurantCreate, RestaurantList, RestaurantUpdate, altestView,CategoryListTest
+from restaurant.views import CategoryCreate, CategoryList, CategoryUpdate, RestCategoryCreate, RestCategoryList, RestCategoryUpdate, RestaurantCreate, RestaurantList, RestaurantUpdate, CategoryListTest,ItemListView
 urlpatterns = [
     # !create path in restaurent module
     path('category/create/', RestCategoryCreate.as_view(),
@@ -19,6 +19,10 @@ urlpatterns = [
 #     path('restaurant/category/', CategoryList.as_view(), name="restcateList"),
     path('<slug:slug>/category/', CategoryListTest.as_view(), name="rester"),
 
-    path('<slug:slug>/<int:id>/test/', altestView.as_view(), name="test")
+#     path('<slug:slug>/<int:id>/test/', altestView.as_view(), name="test"),
+    
+    
+    #!feb 14 updating
+    path('<slug:slug>/item/',ItemListView.as_view(),name="itemlist"),
 
 ]

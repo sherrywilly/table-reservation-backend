@@ -138,11 +138,6 @@ class ItemUpdate(UpdateView):
         return context
 
 
-class ItemList(ListView):
-    model = Item
-    template_name = ''
-    context_object_name = 'data'
-
 
 class ItemView(View):
     def get(self, request, category=None):
@@ -164,24 +159,24 @@ class ItemView(View):
         pass
 
 
-class altestView(View):
-    def get(self, request, *args, **kwargs):
-        slug = kwargs['slug']
-        pk = kwargs['id']
+# class altestView(View):
+#     def get(self, request, *args, **kwargs):
+#         slug = kwargs['slug']
+#         pk = kwargs['id']
 
-        try:
-            x = Item.objects.filter(category__shop__slug=slug, category__pk=pk)
-            print(x)
-            print("test1")
-        except:
-            x = Item.objects.all()
+#         try:
+#             x = Item.objects.filter(category__shop__slug=slug, category__pk=pk)
+#             print(x)
+#             print("test1")
+#         except:
+#             x = Item.objects.all()
 
-        print(x)
-        context = {
-            "items": x,
+#         print(x)
+#         context = {
+#             "items": x,
 
-        }
-        return HttpResponse(x)
+#         }
+#         return HttpResponse(x)
 
 
 class CategoryListTest(ListView):
@@ -194,4 +189,20 @@ class CategoryListTest(ListView):
         return render(self.request,"cat/list.html",context)
     
     
+class ItemListView(ListView):
+    def get(self,*args, **kwargs):
+        slug = kwargs['slug']
+        try:
+            res = Restaurant.objects.get(slug=slug)
+            x = Item.objects.filter(category__shop__slug__iexact=slug)
+        except:
+            res =None
+            x = None
+        
+        context ={
+            'data':x,
+            'res':res
+        }   
+        print(res)
+        return render(request,"",context)
     
