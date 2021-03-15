@@ -72,7 +72,7 @@ class Category(models.Model):
 
     # def get_absolute_url(self):
     #     return reverse("", kwargs={"pk": self.pk})
-
+    @property
     def get_items(self):
         _x = self.item_set.all()
         return _x
@@ -82,7 +82,7 @@ class Item(models.Model):
     name = models.CharField(max_length=50)
     price = models.FloatField()
     category = models.ForeignKey(
-        Category, on_delete=models.CASCADE, blank=True, null=True)
+        Category, on_delete=models.CASCADE, related_name='itemsr', blank=True, null=True)
     # image fierld required
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
