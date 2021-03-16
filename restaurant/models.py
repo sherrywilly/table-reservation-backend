@@ -67,6 +67,9 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    def get_data(self):
+        return 0
+
     def get_update_url(self):
         return reverse("catupdate", kwargs={'pk': self.pk, 'slug': self.shop.slug})
 
@@ -74,15 +77,19 @@ class Category(models.Model):
     #     return reverse("", kwargs={"pk": self.pk})
     @property
     def get_items(self):
+        _y = []
         _x = self.item_set.all()
-        return _x
+        for i in _x:
+            _y.append(i)
+
+        return _y
 
 
 class Item(models.Model):
     name = models.CharField(max_length=50)
     price = models.FloatField()
     category = models.ForeignKey(
-        Category, on_delete=models.CASCADE, related_name='itemsr', blank=True, null=True)
+        Category, on_delete=models.CASCADE, related_name='items', blank=True, null=True)
     # image fierld required
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 

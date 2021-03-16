@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "d:\\college project\\table-reservation-backend\\venv\\Scripts\\python.exe",
+    "python.pythonPath": "/home/sherry/myfolder/collegeproject/table-reservation-backend/venv/bin/python",
     "editor.formatOnSave":true,
     "python.formatting.provider": "autopep8",
     "python.linting.enabled": true,

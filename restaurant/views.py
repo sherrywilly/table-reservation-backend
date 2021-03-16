@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, View
 from restaurant.models import Category, Item, RestCategory, Restaurant
-from restaurant.forms import CategoryForm, ItemForm, RestaurantForm, RestcatForm,CategoryUpdateForm
+from restaurant.forms import CategoryForm, ItemForm, RestaurantForm, RestcatForm, CategoryUpdateForm
 from django.urls import reverse, reverse_lazy
 from django.http import Http404, HttpResponse
 # Create your views here.
@@ -95,15 +95,14 @@ class CategoryUpdate(UpdateView):
     form_class = CategoryUpdateForm
     template_name = 'form.html'
 
-
     def get_success_url(self):
-        return reverse_lazy('rester',kwargs={'slug':self.kwargs['slug']})
+        return reverse_lazy('rester', kwargs={'slug': self.kwargs['slug']})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-    
-    def form_valid(self,form,*args, **kwargs):
+
+    def form_valid(self, form, *args, **kwargs):
         print(kwargs)
         return super().form_valid(form)
 
@@ -136,7 +135,6 @@ class ItemUpdate(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-
 
 
 class ItemView(View):
@@ -180,29 +178,28 @@ class ItemView(View):
 
 
 class CategoryListTest(ListView):
-    def get(self,*args, **kwargs):
+    def get(self, *args, **kwargs):
         print(kwargs)
         data = Category.objects.filter(shop__slug=kwargs['slug'])
         context = {
             "data": data
         }
-        return render(self.request,"cat/list.html",context)
-    
-    
+        return render(self.request, "cat/list.html", context)
+
+
 class ItemListView(ListView):
-    def get(self,*args, **kwargs):
+    def get(self, *args, **kwargs):
         slug = kwargs['slug']
         try:
             res = Restaurant.objects.get(slug=slug)
             x = Item.objects.filter(category__shop__slug__iexact=slug)
         except:
-            res =None
+            res = None
             x = None
-        
-        context ={
-            'data':x,
-            'res':res
-        }   
+
+        context = {
+            'data': x,
+            'res': res
+        }
         print(res)
-        return render(request,"",context)
-    
+        return render(self.request, "", context)

@@ -15,6 +15,19 @@ class RestSerializer(serializers.ModelSerializer):
         return self.context['request'].build_absolute_uri(obj.logo.url)
 
 
+class SingleRestSerializer(serializers.ModelSerializer):
+    logo = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Restaurant
+        # fields = "__all__"
+        depth = 2
+        exclude = ['categorys', 'user']
+
+    def get_logo(self, obj):
+        return self.context['request'].build_absolute_uri(obj.logo.url)
+
+
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
@@ -22,8 +35,9 @@ class ItemSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    items = ItemSerializer(many=True)
+    items = ItemSerializer(many=True, read_only=True)
 
     class Meta:
         model = Category
         fields = ["id", "name", "shop", "items"]
+        # depth = 2
