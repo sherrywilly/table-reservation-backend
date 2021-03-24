@@ -64,7 +64,7 @@ class RestaurantUpdate(UpdateView):
     model = Restaurant
     form_class = RestaurantForm
     template_name = 'form.html'
-    success_url = reverse_lazy()
+    success_url = reverse_lazy('restaurant')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

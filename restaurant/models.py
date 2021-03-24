@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.template.defaultfilters import slugify
 
+
 # Create your models here.
 
 
