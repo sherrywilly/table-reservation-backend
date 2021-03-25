@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, View
 from restaurant.models import Category, Item, RestCategory, Restaurant
-from restaurant.forms import CategoryForm, ItemForm, RestaurantForm, RestcatForm, CategoryUpdateForm
+from restaurant.forms import CategoryForm, ItemForm, RestaurantForm, RestcatForm
 from django.urls import reverse, reverse_lazy
 from django.http import Http404, HttpResponse
 # Create your views here.
@@ -83,16 +83,27 @@ class CategoryCreate(CreateView):
     model = Category
     form_class = CategoryForm
     template_name = 'form.html'
-    success_url = reverse_lazy()
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
 
+    def get_success_url(self):
+        return reverse_lazy('rester', kwargs={'slug': self.kwargs['slug']})
+
+    def form_valid(self, form,*args,**kwargs):
+        print("/n slug"+self.kwargs['slug'])
+        try:
+            form.instance.shop = Restaurant.objects.get(slug__iexact = self.kwargs['slug'])
+        except:
+            form.instance.shop = self.request.user.restaurant
+        return super(CategoryCreate, self).form_valid(form)
+
 
 class CategoryUpdate(UpdateView):
     model = Category
-    form_class = CategoryUpdateForm
+    form_class = CategoryForm
     template_name = 'form.html'
 
     def get_success_url(self):
@@ -102,9 +113,9 @@ class CategoryUpdate(UpdateView):
         context = super().get_context_data(**kwargs)
         return context
 
-    def form_valid(self, form, *args, **kwargs):
-        print(kwargs)
-        return super().form_valid(form)
+    # def form_valid(self, form, *args, **kwargs):
+    #     print(kwargs)
+    #     return super().form_valid(form)
 
 
 class CategoryList(ListView):

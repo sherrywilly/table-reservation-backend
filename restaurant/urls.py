@@ -5,7 +5,7 @@ urlpatterns = [
     path('category/create/', RestCategoryCreate.as_view(),
          name="restcategorycreate"),
     path('restaurant/create/', RestaurantCreate.as_view(), name="restaurantcreate"),
-    path('restaurant/category/create/',
+    path('<slug:slug>/category/create/',
          CategoryCreate.as_view(), name="restaurantcatcreate"),
 
     #!update paths in restaurant modules
