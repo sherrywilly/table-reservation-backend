@@ -76,14 +76,14 @@ class Category(models.Model):
 
     # def get_absolute_url(self):
     #     return reverse("", kwargs={"pk": self.pk})
-    @property
-    def get_items(self):
-        _y = []
-        _x = self.item_set.all()
-        for i in _x:
-            _y.append(i)
+    # @property
+    # def get_items(self):
+    #     _y = []
+    #     _x = self.item_set.all()
+    #     for i in _x:
+    #         _y.append(i)
 
-        return _y
+    #     return _y
 
 
 class Item(models.Model):

@@ -59,13 +59,19 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">Interface</div>
-
-        {% comment %} <li class="nav-item">
-          <a class="nav-link" href="{% url 'dep' %}">
-            <i class="fas fa-fw fa-crown"></i>
-            <span>Department</span></a
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'restcatlist' %}">
+            <i class="fas fa-fw fa-sitemap"></i>
+            <span>Category</span></a
           >
-        </li> {% endcomment %}
+        </li> 
+
+       <li class="nav-item">
+          <a class="nav-link" href="{% url 'restaurant' %}">
+            <i class="fas fa-fw fa-cutlery"></i>
+            <span>Restaurants</span></a
+          >
+        </li> 
         
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block" />

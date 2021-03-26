@@ -1,21 +1,24 @@
 from django.shortcuts import render
-from django.views.generic import View,ListView,DetailView,UpdateView,CreateView
+from django.views.generic import View, ListView, DetailView, UpdateView, CreateView
 from customer.models import Booking, BookingItem, Rating
 # Create your views here.
 
 
-#! booking views 
+#! booking views
 
-class BookingList(ListView):
-    model = Booking
-    template = ''
-    context_object_name = 'data'
+class OrderList(View):
+    def get(self):
+        if not request.user.is_admin:
+
+        else:
+
+            return render(request, "", context)
 
 
 class BookingDetail(DetailView):
     model = Booking
     template_name = ''
-    context_object_name ='data'
+    context_object_name = 'data'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -26,19 +29,17 @@ class BookingDetail(DetailView):
         return context
 
 
-
 class BookingView(View):
 
-    def get(self, request,*args, **kwargs):
+    def get(self, request, *args, **kwargs):
         # ! need to complete the form
 
-        context ={
+        context = {
 
         }
         return render(request, "", context)
 
-
-    def post(self, request,*args, **kwargs):
+    def post(self, request, *args, **kwargs):
         pass
 
 

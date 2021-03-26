@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    'debug_toolbar',
     'crispy_forms',
     'core',
     'customer',
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'tableReservation.urls'
@@ -154,12 +156,18 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # Which is correct.
 # STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 # STATIC_URL = '/static/'
-# STATICFILES_DIRS = (
-#     os.path.join(PROJECT_ROOT, 'static'),
-# )
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # MEDIA_URL = "/media/"
 # MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # MEDIAFILES_DIRS = (os.path.join(BASE_DIR, "media"),)
+
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]

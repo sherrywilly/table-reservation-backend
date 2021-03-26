@@ -12,7 +12,7 @@ class RestCategoryCreate(CreateView):
     model = RestCategory
     form_class = RestcatForm
     template_name = 'form.html'
-    success_url = reverse_lazy('restcategory')
+    success_url = reverse_lazy('restcatlist')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -84,18 +84,15 @@ class CategoryCreate(CreateView):
     form_class = CategoryForm
     template_name = 'form.html'
 
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-    def get_success_url(self):
+    def get_success_url(self, **kwargs):
+        print(kwargs)
         return reverse_lazy('rester', kwargs={'slug': self.kwargs['slug']})
 
-    def form_valid(self, form,*args,**kwargs):
+    def form_valid(self, form, *args, **kwargs):
         print("/n slug"+self.kwargs['slug'])
         try:
-            form.instance.shop = Restaurant.objects.get(slug__iexact = self.kwargs['slug'])
+            form.instance.shop = Restaurant.objects.get(
+                slug__iexact=self.kwargs['slug'])
         except:
             form.instance.shop = self.request.user.restaurant
         return super(CategoryCreate, self).form_valid(form)
@@ -122,6 +119,9 @@ class CategoryList(ListView):
     model = Category
     template_name = 'cat/list.html'
     context_object_name = 'data'
+
+    def get_queryset(self):
+        return super().get_queryset()
 
 
 #! Food items Views
@@ -191,7 +191,8 @@ class ItemView(View):
 class CategoryListTest(ListView):
     def get(self, *args, **kwargs):
         print(kwargs)
-        data = Category.objects.filter(shop__slug=kwargs['slug'])
+        data = Category.objects.filter(
+            shop__slug=kwargs['slug']).select_related('shop')
         context = {
             "data": data
         }
