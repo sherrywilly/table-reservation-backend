@@ -7,12 +7,23 @@ from customer.models import Booking, BookingItem, Rating
 #! booking views
 
 class OrderList(View):
-    def get(self):
-        if not request.user.is_admin:
+    def get(self, request):
+        if not request.user.is_superuser and request.user.is_staff:
+            data = Booking.objects.filter(restaurant__user=request.user)
+            print(data.count())
+            context = {
+                "data": data
+            }
+            return render(request, "booking/list.html", context)
 
         else:
+            data = Booking.objects.all()
+            print(data.count())
+            context = {
+                "data": data
+            }
 
-            return render(request, "", context)
+            return render(request, "booking/list.html", context)
 
 
 class BookingDetail(DetailView):

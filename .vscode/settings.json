@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/home/sherry/Desktop/MY PERSONAL/Django/table-reservation-backend/venv/bin/python",
+    "python.pythonPath": "/home/sherry/Desktop/personal/table-reservation-backend/venv/bin/python",
     "editor.formatOnSave":true,
     "python.formatting.provider": "autopep8",
     "python.linting.enabled": true,
