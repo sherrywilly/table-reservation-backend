@@ -7,6 +7,7 @@ from customer.forms import BookingUpdate
 from django.forms import ValidationError
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
+from customer.forms import UserForm
 # Create your views here.
 
 
@@ -98,16 +99,15 @@ class ratingList(ListView):
 
 
 class ChangePass(View):
-    def get(self,request):
+    def get(self, request):
         form = PasswordChangeForm(user=request.user)
         context = {
-            "form":form
+            "form": form
         }
-        return render(request,"form.html",context)
-    
+        return render(request, "form.html", context)
 
-    def post(self,request):
-        form = PasswordChangeForm(user=request.user,data = request.POST)
+    def post(self, request):
+        form = PasswordChangeForm(user=request.user, data=request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('pass-change'))
@@ -115,3 +115,11 @@ class ChangePass(View):
             print(form.errors)
             return HttpResponseRedirect(reverse('pass-change'))
 
+
+class ProfileView(View):
+    def get(self, request):
+        if request.user.is_superuser:
+            context = {
+                "form":UserForm(instance=request.user)
+            }
+            return render(request,"profile/detail.html",context)
