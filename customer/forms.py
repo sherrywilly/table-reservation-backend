@@ -2,10 +2,7 @@ from django import forms
 from customer.models import Booking
 
 
-class BookingForm(forms.ModelForm):
+class BookingUpdate(forms.ModelForm):
     class Meta:
         model = Booking
-        fields = '__all__'
-
-
-
+        fields = ['date','time','order_status']

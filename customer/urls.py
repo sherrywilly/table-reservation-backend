@@ -2,5 +2,7 @@ from django.urls import path
 from customer import views
 
 urlpatterns = [
-    path('orders/', views.OrderList.as_view(), name="orders")
+    path('orders/', views.OrderList.as_view(), name="orders"),
+    path('orders/<pk>/',views.OrderDetailView.as_view()),
+    path('orders/<pk>/update_order/', views.OrderUpdate.as_view(),name="order-update"),
 ]
