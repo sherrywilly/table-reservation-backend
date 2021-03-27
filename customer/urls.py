@@ -5,4 +5,5 @@ urlpatterns = [
     path('orders/', views.OrderList.as_view(), name="orders"),
     path('orders/<pk>/',views.OrderDetailView.as_view()),
     path('orders/<pk>/update_order/', views.OrderUpdate.as_view(),name="order-update"),
+    path('user/changepass/',views.ChangePass.as_view(),name="pass-change")
 ]
