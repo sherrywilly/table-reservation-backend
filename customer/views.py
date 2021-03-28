@@ -7,7 +7,7 @@ from customer.forms import BookingUpdate
 from django.forms import ValidationError
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
-from customer.forms import UserForm
+from customer.forms import UserForm,RestUserForm
 # Create your views here.
 
 
@@ -118,8 +118,41 @@ class ChangePass(View):
 
 class ProfileView(View):
     def get(self, request):
-        if request.user.is_superuser:
-            context = {
-                "form":UserForm(instance=request.user)
-            }
-            return render(request,"profile/detail.html",context)
+        try:
+            if request.user.is_superuser:
+                context = {
+                    "form":UserForm(instance=request.user)
+                    }
+                return render(request,"profile/detail.html",context)
+            else:
+                context = {
+                    "form":RestUserForm(instance=request.user.restaurant)
+                    }
+                return render(request,"profile/detail.html",context)
+        except:
+            return render(request,"profile/detail.html")
+
+
+    def post(self,request):
+        try:
+            if request.user.is_superuser:
+                form = UserForm(data=request.POST,instance=request.user)
+                if form.is_valid():
+                    form.save()
+                    return HttpResponseRedirect(reverse('user-profile'))
+                else:
+                    print(form.errors)
+                    pass
+            else:
+                form = RestUserForm(data=request.POST,instance=request.user)
+                if form.is_valid():
+                    form.save()
+                    return HttpResponseRedirect(reverse('user-profile'))
+                else:
+                    print(form.errors)
+                    pass
+
+
+        except:
+            return HttpResponseBadRequest("some thing went wrong")
+

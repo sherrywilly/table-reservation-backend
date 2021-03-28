@@ -23,6 +23,12 @@
                 <p class="text-secondary mb-1">{{request.user.email}}</p>
 
                 <p class="text-muted font-size-sm">{{request.user.username}}</p>
+                             <p class="text-muted font-size-sm">{{request.user.restaurant.name}}</p>
+                             {% if not request.user.is_superuser %}
+                             <p class="text-muted font-size-sm">Restaurant</p>
+                             {% else %}
+                             <p class="text-muted font-size-sm">Admin</p>
+                             {% endif %}
               </div>
             </div>
           </div>

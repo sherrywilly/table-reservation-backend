@@ -7,5 +7,5 @@ urlpatterns = [
     path('orders/<pk>/update_order/',
          views.OrderUpdate.as_view(), name="order-update"),
     path('user/changepass/', views.ChangePass.as_view(), name="pass-change"),
-    path('user/profile/',views.ProfileView.as_view())
+    path('user/profile/',views.ProfileView.as_view(),name="user-profile")
 ]
