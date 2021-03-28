@@ -1,5 +1,5 @@
 from django.urls import path
-from restaurant.views import CategoryCreate, CategoryList, CategoryUpdate, RestCategoryCreate, RestCategoryList, RestCategoryUpdate, RestaurantCreate, RestaurantList, RestaurantUpdate, CategoryListTest,ItemListView
+from restaurant.views import restActivate, CategoryCreate, CategoryList, CategoryUpdate, RestCategoryCreate, RestCategoryList, RestCategoryUpdate, RestaurantCreate, RestaurantList, RestaurantUpdate, CategoryListTest, ItemListView, PendingRest
 urlpatterns = [
     # !create path in restaurent module
     path('category/create/', RestCategoryCreate.as_view(),
@@ -14,15 +14,18 @@ urlpatterns = [
     path('<slug:slug>/category/<int:pk>',
          CategoryUpdate.as_view(), name="catupdate"),
     #!list view paths in restaurant module1
-    path('category/', RestCategoryList.as_view(), name="restcatlist"),
+    path('categorys/', RestCategoryList.as_view(), name="restcatlist"),
     path('restaurant/', RestaurantList.as_view(), name="restaurant"),
-#     path('restaurant/category/', CategoryList.as_view(), name="restcateList"),
+    path('restaurant/pending/', PendingRest.as_view(), name="rest-pending"),
+    path('restaurant/<int:pk>/activate',
+         restActivate, name="rest-activate"),
+    #     path('restaurant/category/', CategoryList.as_view(), name="restcateList"),
     path('<slug:slug>/category/', CategoryListTest.as_view(), name="rester"),
 
-#     path('<slug:slug>/<int:id>/test/', altestView.as_view(), name="test"),
-    
-    
+    #     path('<slug:slug>/<int:id>/test/', altestView.as_view(), name="test"),
+
+
     #!feb 14 updating
-    path('<slug:slug>/item/',ItemListView.as_view(),name="itemlist"),
+    path('<slug:slug>/item/', ItemListView.as_view(), name="itemlist"),
 
 ]

@@ -3,7 +3,7 @@ from django.views.generic import ListView, CreateView, UpdateView, View
 from restaurant.models import Category, Item, RestCategory, Restaurant
 from restaurant.forms import CategoryForm, ItemForm, RestaurantForm, RestcatForm
 from django.urls import reverse, reverse_lazy
-from django.http import Http404, HttpResponse
+from django.http import *
 # Create your views here.
 
 
@@ -192,7 +192,7 @@ class CategoryListTest(ListView):
     def get(self, *args, **kwargs):
         print(kwargs)
         data = Category.objects.filter(
-            shop__slug=kwargs['slug']).select_related('shop')
+            shop__slug=kwargs['slug'])
         context = {
             "data": data
         }
@@ -215,3 +215,28 @@ class ItemListView(ListView):
         }
         print(res)
         return render(self.request, "", context)
+
+
+class PendingRest(ListView):
+    model = Restaurant
+    template_name = "rest/listpending.html"
+    context_object_name = "data"
+
+    def get_queryset(self):
+        return Restaurant.objects.filter(user__is_staff=False)
+
+# to activate the restarent from admin side
+
+
+def restActivate(request, pk=None):
+    if pk is not None:
+        try:
+            _u = Restaurant.objects.get(id=pk)
+            _uobj = _u.user
+            _uobj.is_staff = True
+            _uobj.save()
+            return HttpResponseRedirect(reverse('restaurant'))
+        except:
+            return Http404()
+    else:
+        return HttpResponseServerError()

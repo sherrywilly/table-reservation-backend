@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="table-responsive">
+<table class="table table-bordered table-striped table-hover"> 
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>phone</th>
+          <th>certificate id</th>
+            <th>capacity</th>
+           <th>update</th>
+            <th>delete</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.name}}</td>
+            <td>{{i.phone}}</td>
+            <td>certifcate id</td>
+            <td>{{i.seatingCapacity}}</td>
+
+            <td><a href="{{i.activate_url}}" class="btn btn-sm btn-info">activate</a></td> 
+            <td><form method="post" action=""><input type="submit" value="delete" class="btn btn-sm btn-danger"></form></a></td>
+        
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% endblock content %}

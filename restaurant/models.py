@@ -21,7 +21,7 @@ class RestCategory(models.Model):
 
 
 class Restaurant(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, verbose_name="Restaurant name")
     description = models.TextField()
     address = models.TextField()
     phone = models.CharField(max_length=12)
@@ -58,6 +58,9 @@ class Restaurant(models.Model):
 
     def get_detail_url(self):
         return reverse("rester", kwargs={'slug': self.slug})
+
+    def activate_url(self):
+        return reverse('rest-activate', kwargs={"pk": self.pk})
 
 
 class Category(models.Model):
