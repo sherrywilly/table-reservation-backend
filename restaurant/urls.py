@@ -14,7 +14,7 @@ urlpatterns = [
     path('<slug:slug>/category/<int:pk>',
          CategoryUpdate.as_view(), name="catupdate"),
     #!list view paths in restaurant module1
-    path('categorys/', RestCategoryList.as_view(), name="restcatlist"),
+    path('category/', RestCategoryList.as_view(), name="restcatlist"),
     path('restaurant/', RestaurantList.as_view(), name="restaurant"),
     path('restaurant/pending/', PendingRest.as_view(), name="rest-pending"),
     path('restaurant/<int:pk>/activate',
@@ -27,5 +27,6 @@ urlpatterns = [
 
     #!feb 14 updating
     path('<slug:slug>/item/', ItemListView.as_view(), name="itemlist"),
+
 
 ]

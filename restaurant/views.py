@@ -200,20 +200,14 @@ class CategoryListTest(ListView):
 
 
 class ItemListView(ListView):
-    def get(self, *args, **kwargs):
-        slug = kwargs['slug']
+    def get(self, request, *args, **kwargs):
+        cid = self.kwargs.get('cid')
         try:
-            res = Restaurant.objects.get(slug=slug)
-            x = Item.objects.filter(category__shop__slug__iexact=slug)
+            obj = Item.objects.filter(
+                category=cid, category__shop=request.user.restaurant)
         except:
-            res = None
-            x = None
-
-        context = {
-            'data': x,
-            'res': res
-        }
-        print(res)
+            obj = None
+        context = {}
         return render(self.request, "", context)
 
 
@@ -240,3 +234,10 @@ def restActivate(request, pk=None):
             return Http404()
     else:
         return HttpResponseServerError()
+
+# ! 10 -4-2021  starting
+
+
+# class FoodCategoryView(View):
+#     def get(self,request):
+#         return render(request,'foodcat.html')
