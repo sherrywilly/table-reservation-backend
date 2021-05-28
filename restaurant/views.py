@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.generic import ListView, CreateView, UpdateView, View
 from restaurant.models import Category, Item, RestCategory, Restaurant
 from restaurant.forms import CategoryForm, ItemForm, RestaurantForm, RestcatForm
@@ -83,17 +83,23 @@ class CategoryCreate(CreateView):
     model = Category
     form_class = CategoryForm
     template_name = 'form.html'
+    # success_url = reverse_lazy('cat-list-rest')
 
-    def get_success_url(self, **kwargs):
-        print(kwargs)
-        return reverse_lazy('rester', kwargs={'slug': self.kwargs['slug']})
+    # def get_success_url(self, **kwargs):
+    #     print(kwargs)
+    #     return reverse_lazy('rester', kwargs={'slug': self.kwargs['slug']})
+
+    def get_success_url(self):
+        if self.kwargs.get('slug') is not None:
+            return reverse_lazy('rester', kwargs={'slug': self.kwargs['slug']})
+        else:
+            return reverse_lazy('cat-list-rest')
 
     def form_valid(self, form, *args, **kwargs):
-        print("/n slug"+self.kwargs['slug'])
-        try:
+        if self.kwargs.get('slug') is not None:
             form.instance.shop = Restaurant.objects.get(
                 slug__iexact=self.kwargs['slug'])
-        except:
+        else:
             form.instance.shop = self.request.user.restaurant
         return super(CategoryCreate, self).form_valid(form)
 
@@ -104,7 +110,10 @@ class CategoryUpdate(UpdateView):
     template_name = 'form.html'
 
     def get_success_url(self):
-        return reverse_lazy('rester', kwargs={'slug': self.kwargs['slug']})
+        if self.kwargs.get('slug') is not None:
+            return reverse_lazy('rester', kwargs={'slug': self.kwargs['slug']})
+        else:
+            return reverse_lazy('cat-list-rest')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -117,11 +126,18 @@ class CategoryUpdate(UpdateView):
 
 class CategoryList(ListView):
     model = Category
-    template_name = 'cat/list.html'
+    template_name = 'cat/list-rest.html'
     context_object_name = 'data'
 
     def get_queryset(self):
-        return super().get_queryset()
+        _x = super().get_queryset()
+        print(_x)
+        try:
+            _y = _x.filter(shop__user=self.request.user)
+        except:
+            _y = ""
+        # print('_y'+_y)
+        return _y
 
 
 #! Food items Views
@@ -137,15 +153,19 @@ class ItemCreate(CreateView):
         return context
 
 
-class ItemUpdate(UpdateView):
-    model = Item
-    form_class = ItemForm
-    template_name = 'form.html'
-    success_url = reverse_lazy()
+class ItemUpdate(View):
+    def get(self, request, pk):
+        i = Item.objects.get(id=pk)
+        x = ItemForm(user=request.user, instance=i)
+        return render(request, 'form.html', {'form': x})
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+    def post(self, request, pk):
+        i = Item.objects.get(id=pk)
+        x = ItemForm(user=request.user, data=request.POST, instance=i)
+        if x.is_valid():
+            x.save()
+
+        return redirect(reverse_lazy('rest-item-list'))
 
 
 class ItemView(View):
@@ -199,16 +219,19 @@ class CategoryListTest(ListView):
         return render(self.request, "cat/list.html", context)
 
 
-class ItemListView(ListView):
+class ItemListView(View):
     def get(self, request, *args, **kwargs):
-        cid = self.kwargs.get('cid')
-        try:
-            obj = Item.objects.filter(
-                category=cid, category__shop=request.user.restaurant)
-        except:
-            obj = None
-        context = {}
-        return render(self.request, "", context)
+        # cid = self.kwargs.get('cid')
+        # try:
+        #     obj = Item.objects.filter(
+        #         category=cid, category__shop=request.user.restaurant)
+        # except:
+        #     obj = None
+        obj = Item.objects.filter(category__shop__user__username="anoop1")
+        context = {
+            'data': obj
+        }
+        return render(self.request, "item/list.html", context)
 
 
 class PendingRest(ListView):
@@ -241,3 +264,8 @@ def restActivate(request, pk=None):
 # class FoodCategoryView(View):
 #     def get(self,request):
 #         return render(request,'foodcat.html')
+
+
+# class ItemUpdate(View):
+#     def get(self, request, *args, **kwargs):
+#         pass

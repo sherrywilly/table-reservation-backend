@@ -7,7 +7,8 @@ from customer.forms import BookingUpdate
 from django.forms import ValidationError
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
-from customer.forms import UserForm,RestUserForm
+from customer.forms import UserForm, RestUserForm
+from restaurant.models import *
 # Create your views here.
 
 
@@ -121,22 +122,21 @@ class ProfileView(View):
         try:
             if request.user.is_superuser:
                 context = {
-                    "form":UserForm(instance=request.user)
-                    }
-                return render(request,"profile/detail.html",context)
+                    "form": UserForm(instance=request.user)
+                }
+                return render(request, "profile/detail.html", context)
             else:
                 context = {
-                    "form":RestUserForm(instance=request.user.restaurant)
-                    }
-                return render(request,"profile/detail.html",context)
+                    "form": RestUserForm(instance=request.user.restaurant)
+                }
+                return render(request, "profile/detail.html", context)
         except:
-            return render(request,"profile/detail.html")
+            return render(request, "profile/detail.html")
 
-
-    def post(self,request):
+    def post(self, request):
         try:
             if request.user.is_superuser:
-                form = UserForm(data=request.POST,instance=request.user)
+                form = UserForm(data=request.POST, instance=request.user)
                 if form.is_valid():
                     form.save()
                     return HttpResponseRedirect(reverse('user-profile'))
@@ -144,15 +144,24 @@ class ProfileView(View):
                     print(form.errors)
                     pass
             else:
-                form = RestUserForm(data=request.POST,instance=request.user)
+                form = RestUserForm(data=request.POST, instance=request.user)
                 if form.is_valid():
                     form.save()
                     return HttpResponseRedirect(reverse('user-profile'))
                 else:
                     print(form.errors)
                     pass
-
 
         except:
             return HttpResponseBadRequest("some thing went wrong")
 
+
+def restCatList(request):
+    try:
+        _x = Category.objects.filter(shop__user=request.user)
+    except:
+        return Http404("you are not autherised to visit this page")
+    context = {
+        'data': _x
+    }
+    return render('rest-cat-list.html', context)

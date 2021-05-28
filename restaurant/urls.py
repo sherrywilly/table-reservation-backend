@@ -1,11 +1,11 @@
 from django.urls import path
-from restaurant.views import restActivate, CategoryCreate, CategoryList, CategoryUpdate, RestCategoryCreate, RestCategoryList, RestCategoryUpdate, RestaurantCreate, RestaurantList, RestaurantUpdate, CategoryListTest, ItemListView, PendingRest
+from restaurant.views import *
 urlpatterns = [
     # !create path in restaurent module
     path('category/create/', RestCategoryCreate.as_view(),
          name="restcategorycreate"),
     path('restaurant/create/', RestaurantCreate.as_view(), name="restaurantcreate"),
-    path('<slug:slug>/category/create/',
+    path('r/category/create/',
          CategoryCreate.as_view(), name="restaurantcatcreate"),
 
     #!update paths in restaurant modules
@@ -27,6 +27,16 @@ urlpatterns = [
 
     #!feb 14 updating
     path('<slug:slug>/item/', ItemListView.as_view(), name="itemlist"),
+
+    #! may - 8 updating
+    #    views only for restaurents
+    path('r/category-list/', CategoryList.as_view(), name="cat-list-rest"),
+    path('r/category-create/', CategoryCreate.as_view(), name="cat-create-rest"),
+    path('r/category-update/<int:pk>',
+         CategoryUpdate.as_view(), name="cat-update-rest"),
+    #!may -28 again started to complete this stuff
+    path('r/items-list/', ItemListView.as_view(), name="rest-item-list"),
+    path('r/items-update/<pk>/', ItemUpdate.as_view(), name="rest-item-update"),
 
 
 ]

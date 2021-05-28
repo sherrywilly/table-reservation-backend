@@ -17,8 +17,8 @@ class RestaurantForm(forms.ModelForm):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields=['name']
-        
+        fields = ['name']
+
 
 # class CategoryUpdateForm(forms.ModelForm):
 #     class Meta:
@@ -27,6 +27,12 @@ class CategoryForm(forms.ModelForm):
 
 
 class ItemForm(forms.ModelForm):
+
+    def __init__(self, user, *args, **kwargs):
+        super(ItemForm, self).__init__(*args, **kwargs)
+        self.fields['category'].queryset = Category.objects.filter(
+            shop__user__username=user.username)
+
     class Meta:
-        model =Item
-        fields = '__all__'
+        model = Item
+        exclude = ['created_by']

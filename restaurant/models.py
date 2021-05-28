@@ -77,6 +77,9 @@ class Category(models.Model):
     def get_update_url(self):
         return reverse("catupdate", kwargs={'pk': self.pk, 'slug': self.shop.slug})
 
+    def get_rest_update_url(self):
+        return reverse('cat-update-rest', kwargs={'pk': self.pk})
+
     # def get_absolute_url(self):
     #     return reverse("", kwargs={"pk": self.pk})
     # @property

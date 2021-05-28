@@ -27,7 +27,7 @@ SECRET_KEY = 'f--x2yi3zfog4x&q1&dx1xcvw$&6z99@db30a-wv=d3huh@s0q'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -127,9 +127,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-ALLOWED_HOSTS = ["shrouded-river-65348.herokuapp.com",
-                 '127.0.0.1',
-                 'localhost']
+# ALLOWED_HOSTS = ["shrouded-river-65348.herokuapp.com",
+#                  '127.0.0.1',
+#                  'localhost']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -166,8 +166,8 @@ STATICFILES_DIRS = (
 # MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # MEDIAFILES_DIRS = (os.path.join(BASE_DIR, "media"),)
 
-INTERNAL_IPS = [
-    # ...
-    '127.0.0.1',
-    # ...
-]
+# INTERNAL_IPS = [
+#     # ...
+#     '127.0.0.1',
+#     # ...
+# ]
