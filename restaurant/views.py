@@ -142,15 +142,21 @@ class CategoryList(ListView):
 
 #! Food items Views
 
-class ItemCreate(CreateView):
-    model = Item
-    form_class = ItemForm
-    template_name = 'form.html'
-    success_url = reverse_lazy()
+class ItemCreate(View):
+    def get(self, request):
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+        x = ItemForm(user=request.user)
+        return render(request, 'form.html', {'form': x})
+
+    def post(self, request):
+
+        x = ItemForm(user=request.user, data=request.POST)
+        if x.is_valid():
+            _f = x.save(commit=False)
+            _f.created_by = request.user
+            _f.save()
+
+        return redirect(reverse_lazy('rest-item-list'))
 
 
 class ItemUpdate(View):
@@ -227,7 +233,8 @@ class ItemListView(View):
         #         category=cid, category__shop=request.user.restaurant)
         # except:
         #     obj = None
-        obj = Item.objects.filter(category__shop__user__username="anoop1")
+        obj = Item.objects.filter(
+            category__shop__user__username=request.user.username)
         context = {
             'data': obj
         }

@@ -164,4 +164,72 @@ def restCatList(request):
     context = {
         'data': _x
     }
-    return render('rest-cat-list.html', context)
+    return render(request, 'rest-cat-list.html', context)
+
+
+def PendingOrders(request):
+    if not request.user.is_superuser and request.user.is_staff:
+        data = Booking.objects.filter(
+            restaurant__user=request.user, order_status='Pending')
+
+        context = {
+            "data": data
+        }
+        return render(request, "booking/list.html", context)
+
+    else:
+        data = Booking.objects.all()
+        context = {
+            "data": data
+        }
+        return render(request, "booking/list.html", context)
+
+
+def CompletedOrders(request):
+    if not request.user.is_superuser and request.user.is_staff:
+        data = Booking.objects.filter(
+            restaurant__user=request.user, order_status='completed')
+
+        context = {
+            "data": data
+        }
+        return render(request, "booking/list.html", context)
+
+    else:
+        data = Booking.objects.all()
+        context = {
+            "data": data
+        }
+        return render(request, "booking/list.html", context)
+
+
+def ConfirmedOrders(request):
+    if not request.user.is_superuser and request.user.is_staff:
+        data = Booking.objects.filter(
+            restaurant__user=request.user, order_status='Confirmed')
+
+        context = {
+            "data": data
+        }
+        return render(request, "booking/list.html", context)
+
+    else:
+        data = Booking.objects.all()
+        context = {
+            "data": data
+        }
+        return render(request, "booking/list.html", context)
+
+
+# #############################! order view need to craete ##################################
+
+
+def Order(request, pk):
+    try:
+        _x = Order.objects.get(id=pk)
+    except:
+        _x = None
+    context = {
+        'data': _x
+    }
+    return render(request,)

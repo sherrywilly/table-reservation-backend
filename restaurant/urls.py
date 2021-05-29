@@ -31,11 +31,12 @@ urlpatterns = [
     #! may - 8 updating
     #    views only for restaurents
     path('r/category-list/', CategoryList.as_view(), name="cat-list-rest"),
-    path('r/category-create/', CategoryCreate.as_view(), name="cat-create-rest"),
+    path('r/category-list/create', CategoryCreate.as_view(), name="cat-create-rest"),
     path('r/category-update/<int:pk>',
          CategoryUpdate.as_view(), name="cat-update-rest"),
     #!may -28 again started to complete this stuff
     path('r/items-list/', ItemListView.as_view(), name="rest-item-list"),
+    path('r/items-list/create', ItemCreate.as_view(), name="rest-item-create"),
     path('r/items-update/<pk>/', ItemUpdate.as_view(), name="rest-item-update"),
 
 
