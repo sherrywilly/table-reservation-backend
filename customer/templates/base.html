@@ -5,10 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
 
@@ -29,7 +26,7 @@
     <!-- Custom styles for this template-->
 
     <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet" />
-    <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
   </head>
 
   <body id="page-top">
@@ -41,10 +38,7 @@
         id="accordionSidebar"
       >
         <!-- Sidebar - Brand -->
-        <a
-          class="sidebar-brand d-flex align-items-center justify-content-center"
-          href="index.html"
-        >
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
           <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-concierge-bell"></i>
           </div>
@@ -65,6 +59,7 @@
             <span>Dashboard</span></a
           >
         </li>
+        {% if request.user.is_staff and request.user.is_superuser %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'restcatlist' %}">
             <i class="fas fa-fw fa-sitemap"></i>
@@ -73,17 +68,67 @@
         </li>
 
         <li class="nav-item">
+          <a class="nav-link" href="{% url 'rest-pending' %}">
+            <i class="fas fa-fw fa fa-american-sign-language-interpreting"></i>
+            <span>Restaurant Pending</span></a
+          >
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="{% url 'restaurant' %}">
             <i class="fas fa-fw fa fa-pizza-slice"></i>
             <span>Restaurants</span></a
           >
         </li>
+        
+
         <li class="nav-item">
           <a class="nav-link" href="{% url 'orders' %}">
             <i class="fas fa-fw fa-money-bill-wave-alt"></i>
             <span>Orders</span></a
           >
         </li>
+        {% endif %} {% if request.user.is_staff and not request.user.is_superuser %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'cat-list-rest' %}">
+            <i class="fas fa-fw fa-sitemap"></i>
+            <span>Category</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'rest-item-list' %}">
+            <i class="fas fa-fw fa-sitemap"></i>
+            <span>Items</span></a
+          >
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapseUtilities"
+            aria-expanded="true"
+            aria-controls="collapseUtilities"
+          >
+            <i class="fas fa-fw fa-wrench"></i>
+            <span>Orders</span>
+          </a>
+          <div
+            id="collapseUtilities"
+            class="collapse"
+            aria-labelledby="headingUtilities"
+            data-parent="#accordionSidebar"
+          >
+            <div class="bg-white py-2 collapse-inner rounded">
+              <h6 class="collapse-header">Orders</h6>
+              <a class="collapse-item" href="{% url 'orders' %}">ALL</a>
+              <a class="collapse-item" href="{% url 'orders-pending' %}">Pending</a>
+              <a class="collapse-item" href="{% url 'orders-confirmed' %}">Confirmed</a>
+              <a class="collapse-item" href="{% url 'orders-completed' %}">Completed</a>
+            </div>
+          </div>
+        </li>
+        {% endif %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'pass-change' %}">
             <i class="fas fa-fw fa-user-lock"></i>
@@ -112,20 +157,23 @@
         <!-- Main Content -->
         <div id="content">
           <!-- Topbar -->
-          <nav
-            class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
-          >
+          <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
             <!-- Sidebar Toggle (Topbar) -->
-            <button
-              id="sidebarToggleTop"
-              class="btn btn-link d-md-none rounded-circle mr-3"
-            >
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
               <i class="fa fa-bars"></i>
             </button>
 
             <!-- Topbar Search -->
             <form
-              class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
+              class="
+                d-none d-sm-inline-block
+                form-inline
+                mr-auto
+                ml-md-3
+                my-2 my-md-0
+                mw-100
+                navbar-search
+              "
             >
               <div class="input-group">
                 <input
@@ -235,13 +283,10 @@
                     </div>
                     <div>
                       <div class="small text-gray-500">December 2, 2019</div>
-                      Spending Alert: We've noticed unusually high spending for
-                      your account.
+                      Spending Alert: We've noticed unusually high spending for your account.
                     </div>
                   </a>
-                  <a
-                    class="dropdown-item text-center small text-gray-500"
-                    href="#"
+                  <a class="dropdown-item text-center small text-gray-500" href="#"
                     >Show All Alerts</a
                   >
                 </div>
@@ -259,9 +304,7 @@
           <!-- Begin Page Content -->
           <div class="container-fluid">
             <!-- Page Heading -->
-            <h1 class="h3 mb-4 text-gray-800">
-              {% block heading %} {% endblock heading %}
-            </h1>
+            <h1 class="h3 mb-4 text-gray-800">{% block heading %} {% endblock heading %}</h1>
           </div>
           <!-- /.container-fluid -->
           <div class="container">
@@ -269,15 +312,11 @@
               <div class="col-md-12">
                 <div class="card border-left-success">
                   <div class="card-header" style="height: 45px">
-                    <div
-                      class="card-title text-dark font-weight-bold text-capitalize"
-                    >
+                    <div class="card-title text-dark font-weight-bold text-capitalize">
                       {% block cardtitle %} {% endblock cardtitle %}
                     </div>
                   </div>
-                  <div class="card-body">
-                    {% block content %} {% endblock content %}
-                  </div>
+                  <div class="card-body">{% block content %} {% endblock content %}</div>
                 </div>
               </div>
             </div>
@@ -317,12 +356,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button
-              class="close"
-              type="button"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
           </div>
@@ -330,13 +364,7 @@
             Select "Logout" below if you are ready to end your current session.
           </div>
           <div class="modal-footer">
-            <button
-              class="btn btn-secondary"
-              type="button"
-              data-dismiss="modal"
-            >
-              Cancel
-            </button>
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
             <a class="btn btn-primary" href="login.html">Logout</a>
           </div>
         </div>

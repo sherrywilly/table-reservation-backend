@@ -42,10 +42,12 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'debug_toolbar',
+
     'crispy_forms',
     'core',
     'customer',
     'restaurant',
+
 ]
 
 MIDDLEWARE = [

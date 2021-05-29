@@ -9,16 +9,19 @@ class BookingUpdate(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ['date', 'time', 'order_status']
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'}),
+            'time': forms.TimeInput(attrs={'type': 'time'})
+        }
 
 
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name','last_name','email']
-
+        fields = ['first_name', 'last_name', 'email']
 
 
 class RestUserForm(forms.ModelForm):
     class Meta:
         model = Restaurant
-        exclude =['user','slug','lat','log']
+        exclude = ['user', 'slug', 'lat', 'log']
