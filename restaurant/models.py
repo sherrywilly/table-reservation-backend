@@ -35,7 +35,7 @@ class Restaurant(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True, null=True)
-    logo = models.ImageField(upload_to='rest/')
+    logo = models.ImageField(upload_to='rest/', blank=True, null=True)
     # logo and pics for the restaurent is needed here
 
     def save(self, *args, **kwargs):

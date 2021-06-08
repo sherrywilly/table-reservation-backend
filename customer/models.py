@@ -9,15 +9,18 @@ from django.urls import reverse
 
 
 class Booking(models.Model):
+    ORDER_STATUS = (('Pending', 'Pending'), ('Confirmed', 'Confirmed'),
+                    ('Completed', 'Completed'), ('Cancelled', 'Cancelled'))
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.DO_NOTHING)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    order_status = models.CharField(max_length=10)
+    order_status = models.CharField(
+        max_length=10, choices=ORDER_STATUS, default='Pending')
     guest = models.IntegerField(validators=[MinValueValidator(1), ])
     date = models.DateField()
     time = models.TimeField()
-    paymentmethod = models.CharField(max_length=100)
-    created_at = models.DateTimeField(auto_created=True, blank=True, null=True)
+    paymentmethod = models.CharField(max_length=100, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def total_amount(self):
         _y = []
@@ -33,7 +36,8 @@ class Booking(models.Model):
 
 
 class BookingItem(models.Model):
-    order = models.ForeignKey(Booking, on_delete=models.CASCADE)
+    order = models.ForeignKey(
+        Booking, on_delete=models.CASCADE, related_name='order_items')
     food = models.ForeignKey(Item, on_delete=models.DO_NOTHING)
     quantity = models.IntegerField()
 

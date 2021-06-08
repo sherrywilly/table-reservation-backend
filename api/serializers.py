@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from restaurant.models import Restaurant, Item, Category
+from customer.models import *
 
 
 class RestSerializer(serializers.ModelSerializer):
@@ -41,3 +42,20 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ["id", "name", "shop", "items"]
         # depth = 2
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BookingItem
+        fields = ['id', 'food', 'quantity']
+        depth = 1
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    order_items = OrderItemSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Booking
+        fields = ['id', 'restaurant', 'user', 'order_status',
+                  'guest', 'date', 'time', 'created_at', 'order_items']
+        # depth = 1

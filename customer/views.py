@@ -142,15 +142,16 @@ class ProfileView(View):
                     return HttpResponseRedirect(reverse('user-profile'))
                 else:
                     print(form.errors)
-                    pass
+                    raise NameError
             else:
-                form = RestUserForm(data=request.POST, instance=request.user)
+                form = RestUserForm(data=request.POST,
+                                    instance=request.user.restaurant)
                 if form.is_valid():
                     form.save()
                     return HttpResponseRedirect(reverse('user-profile'))
                 else:
                     print(form.errors)
-                    pass
+                    return HttpResponse(form.errors)
 
         except:
             return HttpResponseBadRequest("some thing went wrong")
