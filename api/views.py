@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from rest_framework.views import APIView
 from .serializers import RestSerializer, CategorySerializer, ItemSerializer
@@ -50,14 +51,19 @@ class OrderApiView(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        print(request.data)
-        serializer = OrderSerializer(data=request.data)
+        print(request.data.get('data'))
+        xx = json.loads(request.data['data'])
+        print(type(xx))
+        serializer = OrderSerializer(data=xx)
         if serializer.is_valid():
             x = serializer.save()
-            for i in request.data.get('order_items'):
+            for i in xx['order_items']:
+                print(i)
                 count = i['quantity']
                 fo_id = i['food']['id']
                 print(fo_id)
                 BookingItem.objects.create(
                     order_id=x.id, food_id=fo_id, quantity=count)
+        else:
+            print(serializer.errors)
         return Response(serializer.data)
