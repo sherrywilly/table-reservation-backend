@@ -6,6 +6,9 @@ from django.template.defaultfilters import slugify
 
 # Create your models here.
 
+class Location(models.Model):
+    name = models.CharField(max_length=50)
+
 
 class RestCategory(models.Model):
     name = models.CharField(max_length=10)
@@ -26,8 +29,10 @@ class Restaurant(models.Model):
     address = models.TextField()
     phone = models.CharField(max_length=12)
     categorys = models.ManyToManyField(RestCategory)
-    lat = models.FloatField()
-    log = models.FloatField()
+    # lat = models.FloatField()
+    # log = models.FloatField()
+    location = models.ForeignKey(
+        Location, on_delete=models.SET_NULL, blank=True, null=True)
     status = models.BooleanField(default=False)
     opentime = models.TimeField()
     closstime = models.TimeField()

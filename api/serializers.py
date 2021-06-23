@@ -1,6 +1,16 @@
+from django.db.models import fields
 from rest_framework import serializers
 from restaurant.models import Restaurant, Item, Category
 from customer.models import *
+from django.contrib.auth import get_user_model
+user = get_user_model()
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = user
+        fields = ['id', 'username', 'password']
+        extra_kwargs = {'password': {'write_only': True, 'required': True}}
 
 
 class RestSerializer(serializers.ModelSerializer):
