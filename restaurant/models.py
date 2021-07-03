@@ -1,3 +1,4 @@
+from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -7,7 +8,11 @@ from django.template.defaultfilters import slugify
 # Create your models here.
 
 class Location(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, verbose_name="Location name")
+    desc = models.TextField(blank=True, null=True, verbose_name="description")
+
+    def __str__(self):
+        return self.name
 
 
 class RestCategory(models.Model):

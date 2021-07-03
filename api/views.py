@@ -1,8 +1,8 @@
 import json
 from django.shortcuts import render
 from rest_framework.views import APIView
-from .serializers import RestSerializer, CategorySerializer, ItemSerializer
-from restaurant.models import Restaurant, Category, Item
+from .serializers import LocationSerializer, RestSerializer, CategorySerializer, ItemSerializer
+from restaurant.models import Location, Restaurant, Category, Item
 from rest_framework.response import Response
 from api.serializers import OrderSerializer, SingleRestSerializer
 from rest_framework import status
@@ -67,3 +67,10 @@ class OrderApiView(APIView):
         else:
             print(serializer.errors)
         return Response(serializer.data)
+
+
+class LocationApiView(APIView):
+    def get(self, request):
+        loc = Location.objects.all()
+        serialiser = LocationSerializer(loc, many=True)
+        return Response(serialiser.data)
