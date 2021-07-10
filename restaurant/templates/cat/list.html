@@ -1,4 +1,7 @@
-{% extends 'cat/base.html' %} {% block content %} {% for i in data %}
+{% extends 'cat/base.html' %} {% comment %} {% endcomment %} {% comment %}
+########{%endcomment %} {% block cardtitle %}{{heading}}{% endblock cardtitle %}
+{% block cardtitle %}{{heading}}{% endblock cardtitle %} {% block content %} {%
+for i in data %}
 <div class="row mb-4">
   <div class="col-md-12">
     <div class="card border-left-success">
@@ -15,7 +18,6 @@
                 <th>id</th>
                 <th>name</th>
                 <th>price</th>
-           
               </tr>
             </thead>
             <tbody>

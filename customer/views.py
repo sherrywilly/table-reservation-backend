@@ -103,7 +103,8 @@ class ChangePass(View):
     def get(self, request):
         form = PasswordChangeForm(user=request.user)
         context = {
-            "form": form
+            "form": form,
+            'heading': "change password"
         }
         return render(request, "form.html", context)
 
@@ -189,7 +190,7 @@ def PendingOrders(request):
 def CompletedOrders(request):
     if not request.user.is_superuser and request.user.is_staff:
         data = Booking.objects.filter(
-            restaurant__user=request.user, order_status='completed')
+            restaurant__user=request.user, order_status__iexact='completed')
 
         context = {
             "data": data
@@ -197,7 +198,7 @@ def CompletedOrders(request):
         return render(request, "booking/list.html", context)
 
     else:
-        data = Booking.objects.all()
+        data = Booking.objects.filter(order_status__iexact='completed')
         context = {
             "data": data
         }
@@ -207,7 +208,7 @@ def CompletedOrders(request):
 def ConfirmedOrders(request):
     if not request.user.is_superuser and request.user.is_staff:
         data = Booking.objects.filter(
-            restaurant__user=request.user, order_status='Confirmed')
+            restaurant__user=request.user, order_status__iexact='Confirmed')
 
         context = {
             "data": data
@@ -215,7 +216,7 @@ def ConfirmedOrders(request):
         return render(request, "booking/list.html", context)
 
     else:
-        data = Booking.objects.all()
+        data = Booking.objects.filter(order_status__iexact="Confirmed")
         context = {
             "data": data
         }

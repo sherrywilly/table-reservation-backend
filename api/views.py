@@ -1,7 +1,9 @@
+from django.contrib.auth import get_user_model
+from rest_framework import viewsets
 import json
 from django.shortcuts import render
 from rest_framework.views import APIView
-from .serializers import LocationSerializer, RestSerializer, CategorySerializer, ItemSerializer
+from .serializers import LocationSerializer, RestSerializer, CategorySerializer, ItemSerializer, UserSerializer
 from restaurant.models import Location, Restaurant, Category, Item
 from rest_framework.response import Response
 from api.serializers import OrderSerializer, SingleRestSerializer
@@ -74,3 +76,13 @@ class LocationApiView(APIView):
         loc = Location.objects.all()
         serialiser = LocationSerializer(loc, many=True)
         return Response(serialiser.data)
+
+
+#! ############################### user model ##############################
+
+User = get_user_model()
+
+
+class UserViewset(viewsets.ModelViewSet):
+    queryset = User.objects.filter(is_staff=False, is_superuser=False)
+    serializer_class = UserSerializer

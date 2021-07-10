@@ -35,6 +35,11 @@ class RestCategoryList(ListView):
     template_name = 'restcat/list.html'
     context_object_name = "data"
 
+    def get_context_data(self, **kwargs):
+        x = super().get_context_data(**kwargs)
+        x['heading'] = "category"
+        return x
+
 
 def restCatDel(request, id):
     if request.method == "POST":
@@ -76,8 +81,15 @@ class RestaurantList(ListView):
     template_name = 'rest/list.html'
     context_object_name = "data"
 
+    def get_context_data(self, **kwargs):
+        x = super().get_context_data(**kwargs)
+        x['heading'] = "Restaurants"
+        return x
 
+    def get_queryset(self):
+        return super().get_queryset().filter(user__is_staff=True, user__is_active=False)
 # ! Food category views
+
 
 class CategoryCreate(CreateView):
     model = Category
@@ -247,7 +259,12 @@ class PendingRest(ListView):
     context_object_name = "data"
 
     def get_queryset(self):
-        return Restaurant.objects.filter(user__is_staff=False)
+        return Restaurant.objects.filter(user__is_staff=False, user__is_active=False)
+
+    def get_context_data(self, **kwargs):
+        x = super().get_context_data(**kwargs)
+        x['heading'] = "Pending Restaurents"
+        return x
 
 # to activate the restarent from admin side
 
