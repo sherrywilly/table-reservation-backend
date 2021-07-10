@@ -1,3 +1,4 @@
+from core.views import DashBoard
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
@@ -33,5 +34,6 @@ urlpatterns = [
          auth_views.PasswordResetCompleteView.as_view(
          ),
          name='password_reset_complete'),
-    path('', TemplateView.as_view(template_name="account/login.html"))
+    path('', TemplateView.as_view(template_name="account/login.html")),
+    path('dashboard/', DashBoard, name="dashboard")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

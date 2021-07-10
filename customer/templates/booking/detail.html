@@ -6,24 +6,20 @@
         <div class="card">
           <div class="card-body">
             <div class="d-flex flex-column align-items-center text-center">
-              <img
-                src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                alt="Admin"
-                class="rounded-circle"
-                width="150"
-              />
+              <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle"
+                width="150" />
               <div class="mt-3">
                 <h4>{{object.user.first_name}}&nbsp;{{object.user.last_name}}</h4>
                 {% comment %} <p class="text-secondary mb-1">Full Stack Developer</p> {% endcomment %}
                 <p class="text-muted font-size-sm">
-                 User
+                  User
                 </p>
-             
+
               </div>
             </div>
           </div>
         </div>
-        
+
       </div>
       <div class="col-md-8">
         <div class="card mb-3">
@@ -42,14 +38,14 @@
               <div class="col-sm-9 text-secondary">{{object.user.email}}</div>
             </div>
             <hr />
-            
+
             <div class="row">
               <div class="col-sm-3">
                 <h6 class="mb-0">Mobile</h6>
               </div>
               <div class="col-sm-9 text-secondary">{{object.user.profile.phone}}</div>
             </div>
-              <hr />
+            <hr />
             <div class="row">
               <div class="col-sm-3">
                 <h6 class="mb-0">guests</h6>
@@ -67,21 +63,21 @@
                 {{object.date}}&nbsp;{{object.time}}
               </div>
             </div>
-            <hr/>
-              <div class="row">
+            <hr />
+            <div class="row">
               <div class="col-sm-3">
                 <h6 class="mb-0">Total Payable</h6>
               </div>
               <div class="col-sm-9 text-secondary">{{object.total_amount}}</div>
             </div>
-            <hr/>
-              <div class="row">
+            <hr />
+            <div class="row">
               <div class="col-sm-3">
                 <h6 class="mb-0">Payement Mode</h6>
               </div>
               <div class="col-sm-9 text-secondary">{{object.paymentmethod}}</div>
             </div>
-              <hr />
+            <hr />
             <div class="row">
               <div class="col-sm-3">
                 <h6 class="mb-0">status</h6>
@@ -90,52 +86,52 @@
                 {{object.order_status}}
               </div>
             </div>
-            
+
           </div>
         </div>
         <div class="row gutters-sm">
           <div class="col-sm-12 mb-3">
             <div class="card h-100">
               <div class="card-body">
-              
-<!--tabble-->
-<div class="table-responsive">
-  <table class="table table-bordered table-striped table-hover">
-    <thead>
-      <tr>
-        <th>id</th>
-        <th>item</th>
-        <th>price</th>
-        <th>quantity</th>
-        <th>total</th>
-        
-      </tr>
-    </thead>
-    <tbody>
-      {% for i in object.bookingitem_set.all %}
-      <tr>
-        <td>{{forloop.counter}}</td>
-        
-        <td>{{i.food.name}}</td>
-        <td>{{i.food.price}}</td>
-        <td>{{i.quantity}}</td>
-        <td>{{i.total}}</td>
-       
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-<!--table ends-->
+
+                <!--tabble-->
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th>id</th>
+                        <th>item</th>
+                        <th>price</th>
+                        <th>quantity</th>
+                        <th>total</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in object.bookingitem_set.all %}
+                      <tr>
+                        <td>{{forloop.counter}}</td>
+
+                        <td>{{i.food.name}}</td>
+                        <td>{{i.food.price}}</td>
+                        <td>{{i.quantity}}</td>
+                        <td>{{i.total}}</td>
+
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <!--table ends-->
 
 
 
 
-              
+
               </div>
             </div>
           </div>
-         
+
         </div>
       </div>
     </div>

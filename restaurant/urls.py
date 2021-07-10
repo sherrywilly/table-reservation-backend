@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic.base import TemplateView
 from restaurant.views import *
 urlpatterns = [
     # !create path in restaurent module
@@ -38,6 +39,7 @@ urlpatterns = [
     path('r/items-list/', ItemListView.as_view(), name="rest-item-list"),
     path('r/items-list/create', ItemCreate.as_view(), name="rest-item-create"),
     path('r/items-update/<pk>/', ItemUpdate.as_view(), name="rest-item-update"),
+
 
 
 ]
