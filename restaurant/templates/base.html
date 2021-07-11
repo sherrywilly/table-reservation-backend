@@ -47,42 +47,109 @@
 
       <!-- Heading -->
       <div class="sidebar-heading">Interface</div>
-      <li class="nav-item active">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'dashboard' %}">
+          <i class="fas fa-fw fa fa-tachometer"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      {% if  request.user.is_superuser %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'dashboard' %}">
+          <i class="fas fa-fw fa fa-map-marker"></i>
+          <span>Location</span>
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="{% url 'restcatlist' %}">
-          <i class="fas fa-fw fa-sitemap"></i>
-          <span>Category</span></a>
+          <i class="fas fa-fw fa fa-grav"></i>
+          <span>Category</span>
+        </a>
       </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'restaurant' %}">
-          <i class="fas fa-fw fa-cutlery"></i>
-          <span>Restaurants</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'orders' %}">
-          <i class="fas fa-fw fa-cutlery"></i>
-          <span>Orders</span></a>
-      </li>
-
-      {% if request.user.is_staff and  request.user.is_admin %}
-
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
           aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-wrench"></i>
-          <span>Utilities</span>
+          <i class="fas fa-fw fa fa-cutlery"></i>
+          <span>Restaurants</span>
         </a>
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Utilities:</h6>
-            <a class="collapse-item" href="utilities-color.html">Colors</a>
-            <a class="collapse-item" href="utilities-border.html">Borders</a>
-            <a class="collapse-item" href="utilities-animation.html">Animations</a>
-            <a class="collapse-item" href="utilities-other.html">Other</a>
+            <h6 class="collapse-header">Restaurants:</h6>
+            <a class="collapse-item" href="{% url 'restaurant' %}">all</a>
+            <a class="collapse-item" href="{% url 'rest-pending' %}">Pending</a>
+
           </div>
         </div>
       </li>
       {% endif %}
+      {% if not  request.user.is_superuser and request.user.is_staff %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'dashboard' %}">
+          <i class="fas fa-fw fa fa-grav"></i>
+          <span>Category</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'rest-item-list' %}">
+          <i class="fas fa-fw fa fa-sitemap"></i>
+          <span>Items</span>
+        </a>
+      </li>
+      {% endif %}
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOrders" aria-expanded="true"
+          aria-controls="collapseOrders">
+          <i class="fas fa-fw fa fa-first-order"></i>
+          <span>Orders</span>
+        </a>
+        <div id="collapseOrders" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">orders:</h6>
+            <a class="collapse-item" href="{% url 'orders' %}">all</a>
+            <a class="collapse-item" href="{% url 'orders-pending' %}">Pending</a>
+            {% comment %} <a class="collapse-item" href="{% url '' %}">proccessed</a> {% endcomment %}
+            <a class="collapse-item" href="{% url 'orders-confirmed' %}">confirmed</a>
+            <a class="collapse-item" href="{% url 'orders-completed' %}">Completed</a>
+            {% comment %} <a class="collapse-item" href="{% url '' %}">cancelled</a> {% endcomment %}
+          </div>
+        </div>
+      </li>
+      {% if request.user.is_superuser %}
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers" aria-expanded="true"
+          aria-controls="collapseUsers">
+          <i class="fas fa-fw fa-users"></i>
+          <span>Users</span>
+        </a>
+        <div id="collapseUsers" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Users:</h6>
+            {% comment %} <a class="collapse-item" href="{% url '' %}">active</a> {% endcomment %}
+            {% comment %} <a class="collapse-item" href="{% url '' %}">inactive</a> {% endcomment %}
+
+          </div>
+        </div>
+      </li>
+      {% endif %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'user-profile' %}">
+          <i class="fas fa-fw fa-user"></i>
+          <span>Profile</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'pass-change' %}">
+          <i class="fas fa-fw fa-lock"></i>
+          <span>Change password</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'pass-change' %}">
+          <i class="fas fa-fw fa fa-sign-out"></i>
+          <span>logout</span>
+        </a>
+      </li>
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block" />
