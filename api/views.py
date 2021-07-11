@@ -45,6 +45,8 @@ class RestWithLocation(APIView):
             rest = Restaurant.objects.filter(location_id=pk)
         else:
             rest = Restaurant.objects.all()
+        if rest.count == 0:
+            return Response(status=404)
         serializer = RestSerializer(
             rest, many=True, context={'request': request})
         return Response(serializer.data)
