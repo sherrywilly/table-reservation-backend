@@ -108,7 +108,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      {% for i in object.bookingitem_set.all %}
+                      {% for i in object.order_items.all %}
                       <tr>
                         <td>{{forloop.counter}}</td>
 

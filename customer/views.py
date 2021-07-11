@@ -40,7 +40,7 @@ class OrderDetailView(DetailView):
 
     def get_object(self):
         _pk = self.kwargs.get('pk')
-        # print(_pk)
+        print(_pk)
         return get_object_or_404(Booking, id=_pk)
 
     def get_context_data(self, **kwargs):

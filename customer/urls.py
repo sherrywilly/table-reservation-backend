@@ -10,7 +10,7 @@ urlpatterns = [
     path('orders/confirmed/', views.ConfirmedOrders, name="orders-confirmed"),
     #!############################### ends only for restaurents ##################################
     #!############################### for Both restaurents and admin #############################
-    path('orders/<pk>/', views.OrderDetailView.as_view()),
+    path('orders/<pk>/', views.OrderDetailView.as_view(), name="order-detail"),
     path('orders/<pk>/update_order/',
          views.OrderUpdate.as_view(), name="order-update"),
     path('user/changepass/', views.ChangePass.as_view(), name="pass-change"),

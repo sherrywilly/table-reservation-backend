@@ -24,12 +24,15 @@ class Booking(models.Model):
 
     def total_amount(self):
         _y = []
-        _x = self.bookingitem_set.all()
+        _x = self.order_items.all()
         _y = [i.food.price*i.quantity for i in _x]
         return sum(_y)
 
     def __str__(self):
         return str(self.pk)
+
+    def get_absolute_url(self):
+        return reverse("order-detail", kwargs={"pk": self.pk})
 
     def update_url(self):
         return reverse('order-update', kwargs={'pk': self.pk})
