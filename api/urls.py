@@ -1,7 +1,7 @@
 from api.customauth import CustomAuthToken
 from django.urls import path
 from django.urls.conf import include
-from .views import LocationApiView, RestApiView, CategoryApiView, UserViewset
+from .views import LocationApiView, RestApiView, CategoryApiView, RestWithLocation, UserViewset
 from api.views import OrderApiView
 from rest_framework import routers
 # from tableReservation import api_root
@@ -12,6 +12,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path("rest/", RestApiView.as_view(),),
     path("rest/<int:pk>/", RestApiView.as_view(),),
+    path("restwithlocation/<int:pk>/", RestWithLocation.as_view(),),
 
     path('cate/<int:pk>/', CategoryApiView.as_view()),
     path('orders/', OrderApiView.as_view()),

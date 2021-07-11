@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from rest_framework import viewsets
+from rest_framework import serializers, viewsets
 import json
 from django.shortcuts import render
 from rest_framework.views import APIView
@@ -37,6 +37,17 @@ class RestApiView(APIView):
             serializer = RestSerializer(
                 rest, many=True, context={'request': request})
             return Response(serializer.data)
+
+
+class RestWithLocation(APIView):
+    def get(self, request, pk, format=None):
+        if pk is not None:
+            rest = Restaurant.objects.filter(location_id=pk)
+        else:
+            rest = Restaurant.objects.all()
+        serializer = RestSerializer(
+            rest, many=True, context={'request': request})
+        return Response(serializer.data)
 
 
 class CategoryApiView(APIView):
