@@ -99,3 +99,7 @@ User = get_user_model()
 class UserViewset(viewsets.ModelViewSet):
     queryset = User.objects.filter(is_staff=False, is_superuser=False)
     serializer_class = UserSerializer
+
+    def list(self, request, *args, **kwargs):
+        response = {'message': 'get method restricted'}
+        return Response(response, status=status.HTTP_400_BAD_REQUEST)

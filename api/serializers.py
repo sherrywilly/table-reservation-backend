@@ -1,6 +1,7 @@
 
 from django.db.models import fields
 from rest_framework import serializers
+from rest_framework.fields import ReadOnlyField
 from rest_framework.settings import APISettings
 from restaurant.models import Location, Restaurant, Item, Category
 from customer.models import *
@@ -9,39 +10,33 @@ from rest_framework.authtoken.models import Token
 user = get_user_model()
 
 
-token = serializers.SerializerMethodField()
-
-
-# class TokenSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Token
-#         fields = ['Key']
-
-
 class UserSerializer(serializers.ModelSerializer):
-    # key = TokenSerializer(read_only=True)
+    auth_token = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = user
-        fields = ['id', 'username', 'email', 'password', ]
+        fields = ['id', 'username', 'email', 'password', 'auth_token']
         extra_kwargs = {'password': {'write_only': True, 'required': True}}
 
-    def create(self, request, *args, **kwargs):
-        response = super().create(request, *args, **kwargs)
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        user = User(**validated_data)
+        user.set_password(password)
+        user.save()
         token, created = Token.objects.get_or_create(
-            user_id=response.id)
-        # x = str(token)
+            user_id=user.id)
+        x = str(token)
         # try:
         #     context = {
-        #         'id': response.id,
-        #         'username': response.username,
-        #         'email': response.email,
-        #         'token': x
+        #         'id': user.id,
+        #         'username': user.username,
+        #         'email': user.email,
+        #         'Token': x
         #     }
         # except Exception as KeyError:
-        #     context = response
+        #     context = user
         # print(context)
-        return response
+        return user
 
 
 class LocationSerializer(serializers.ModelSerializer):

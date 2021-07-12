@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
 
+
     # 'debug_toolbar',
 
     'crispy_forms',
@@ -130,6 +131,9 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# REST_USE_JWT = True
+# JWT_AUTH_COOKIE = 'jwt-auth'
 
 # ALLOWED_HOSTS = ["shrouded-river-65348.herokuapp.com",
 #                  '127.0.0.1',
