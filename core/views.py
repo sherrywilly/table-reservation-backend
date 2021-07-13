@@ -58,8 +58,10 @@ def registration(request):
             user.set_password(password)
             user.is_active = False
             x = user.save()
+            print(user)
             rest = f1.save(commit=False)
-            rest.user = x
+            print(x)
+            rest.user = user
             rest.save()
         else:
             print(f1.errors, f2.errors)
