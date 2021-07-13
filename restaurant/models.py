@@ -14,6 +14,9 @@ class Location(models.Model):
     def __str__(self):
         return self.name
 
+    def get_update_url(self):
+        return reverse("locupdate", kwargs={'pk': self.pk})
+
 
 class RestCategory(models.Model):
     name = models.CharField(max_length=10)
@@ -41,7 +44,7 @@ class Restaurant(models.Model):
     status = models.BooleanField(default=False)
     opentime = models.TimeField()
     closstime = models.TimeField()
-    seatingCapacity = models.IntegerField()
+    seatingCapacity = models.IntegerField(blank=True, null=True)
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True, null=True)

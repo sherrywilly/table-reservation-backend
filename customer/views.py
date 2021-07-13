@@ -20,18 +20,20 @@ class OrderList(View):
             data = Booking.objects.filter(restaurant__user=request.user)
 
             context = {
-                "data": data
+                "data": data,
+                "heading": 'All orders'
             }
-            return render(request, "booking/list.html", context)
+            return render(request, "booking/complist.html", context)
 
         else:
             data = Booking.objects.all()
 
             context = {
-                "data": data
+                "data": data,
+                "heading": 'All orders'
             }
 
-            return render(request, "booking/list.html", context)
+            return render(request, "booking/complist.html", context)
 
 
 class OrderDetailView(DetailView):
@@ -64,7 +66,7 @@ class OrderUpdate(View):
 
         context = {
             "form": x,
-            "title": "Order Update"
+            "heading": "Order Update"
         }
         return render(request, "form.html", context)
 
@@ -77,26 +79,6 @@ class OrderUpdate(View):
         else:
             print(form.errors)
             return HttpResponseRedirect(reverse('order-update', kwargs={"pk": kwargs.get('pk')}))
-
-
-class BookingView(View):
-
-    def get(self, request, *args, **kwargs):
-        # ! need to complete the form
-
-        context = {
-
-        }
-        return render(request, "", context)
-
-    def post(self, request, *args, **kwargs):
-        pass
-
-
-class ratingList(ListView):
-    model = Rating
-    template = ""
-    context_object_name = "data"
 
 
 class ChangePass(View):
@@ -164,7 +146,8 @@ def restCatList(request):
     except:
         return Http404("you are not autherised to visit this page")
     context = {
-        'data': _x
+        'data': _x,
+        'heading': 'categories'
     }
     return render(request, 'rest-cat-list.html', context)
 
@@ -175,14 +158,17 @@ def PendingOrders(request):
             restaurant__user=request.user, order_status='Pending')
 
         context = {
-            "data": data
+            "data": data,
+            "heading": "pending Orders"
         }
         return render(request, "booking/list.html", context)
 
     else:
-        data = Booking.objects.all()
+        data = Booking.objects.filter(order_status='Pending')
         context = {
-            "data": data
+            "data": data,
+            "heading": "pending Orders"
+
         }
         return render(request, "booking/list.html", context)
 
@@ -193,16 +179,18 @@ def CompletedOrders(request):
             restaurant__user=request.user, order_status__iexact='completed')
 
         context = {
-            "data": data
+            "data": data,
+            "heading": "Completed Orders"
         }
-        return render(request, "booking/list.html", context)
+        return render(request, "booking/complist.html", context)
 
     else:
         data = Booking.objects.filter(order_status__iexact='completed')
         context = {
-            "data": data
+            "data": data,
+            "heading": "Complete Orders"
         }
-        return render(request, "booking/list.html", context)
+        return render(request, "booking/complist.html", context)
 
 
 def ConfirmedOrders(request):
@@ -211,27 +199,29 @@ def ConfirmedOrders(request):
             restaurant__user=request.user, order_status__iexact='Confirmed')
 
         context = {
-            "data": data
+            "data": data,
+            "heading": "Confirmed Orders"
         }
         return render(request, "booking/list.html", context)
 
     else:
         data = Booking.objects.filter(order_status__iexact="Confirmed")
         context = {
-            "data": data
+            "data": data,
+            "heading": "Confirmed Orders"
         }
         return render(request, "booking/list.html", context)
 
 
-# #############################! order view need to craete ##################################
+# #############################! order view need to create ##################################
 
 
-def Order(request, pk):
-    try:
-        _x = Order.objects.get(id=pk)
-    except:
-        _x = None
-    context = {
-        'data': _x
-    }
-    return render(request,)
+# def Order(request, pk):
+#     try:
+#         _x = Order.objects.get(id=pk)
+#     except:
+#         _x = None
+#     context = {
+#         'data': _x
+#     }
+#     return

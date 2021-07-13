@@ -3,38 +3,42 @@
 
 {% block content %}
 <div class="table-responsive">
-<table class="table table-bordered table-striped table-hover" id="dataTable"> 
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>name</th>
-            <th>phone</th>
-            <th>status</th>
-            <th>capacity</th>
-            <th>view</th>
-            <th>update</th>
-            <th>delete</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for i in data %}
-        <tr>
-            <td>{{forloop.counter}}</td>
-            <td>{{i.name}}</td>
-            <td>{{i.phone}}</td>
-            <td>{{i.status}}</td>
-            <td>{{i.seatingCapacity}}</td>
-            {% if i.get_detail_url %}
-            <td><a href="{{i.get_detail_url}}" class="btn btn-sm btn-primary">view</a></td> 
-            {% endif %}
+    <table class="table table-bordered table-striped table-hover" id="dataTable">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>phone</th>
+                <th>status</th>
+                <th>capacity</th>
+                <th>view</th>
+                <th>update</th>
+                <th>delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in data %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.name}}</td>
+                <td>{{i.phone}}</td>
+                <td>{{i.status}}</td>
+                <td>{{i.seatingCapacity}}</td>
+                {% if i.get_detail_url %}
+                <td><a href="{{i.get_detail_url}}" class="btn btn-sm btn-primary">view</a></td>
+                {% endif %}
 
-            <td><a href="{{i.get_update_url}}" class="btn btn-sm btn-info">update</a></td> 
-            <td><form method="post" action=""><input type="submit" value="delete" class="btn btn-sm btn-danger"></form></a></td>
-        
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+                <td><a href="{{i.get_update_url}}" class="btn btn-sm btn-info">update</a></td>
+                <td>
+                    <form method="post" action="{% url 'rest-delete' i.id %}">
+                        {% csrf_token %}
+                        <input type="submit" value="delete" class="btn btn-sm btn-danger"></form></a>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
 {% endblock content %}

@@ -63,6 +63,7 @@ class RestaurantCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['heading'] = "Create Restaurant"
         return context
 
 
@@ -74,6 +75,7 @@ class RestaurantUpdate(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['heading'] = "update Restaurant"
         return context
 
 

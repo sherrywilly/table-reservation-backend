@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% comment %}##########{% endcomment %} {% comment %}
+#### {% endcomment %}
+{% block cardtitle %}{{heading}}{% endblock cardtitle %}
+{% block content %}
+<div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover" id="dataTable">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>peoples</th>
+                <th>restaurant</th>
+                <th>date</th>
+                <th>time</th>
+                <th>status</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in data %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.guest}}</td>
+                <td>{{i.restaurant.name}}</td>
+                <td>{{i.date}}</td>
+                <td>{{i.time}}</td>
+                <td>{{i.order_status}}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
