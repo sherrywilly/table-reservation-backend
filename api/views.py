@@ -9,6 +9,8 @@ from rest_framework.response import Response
 from api.serializers import OrderSerializer, SingleRestSerializer
 from rest_framework import status
 from customer.models import Booking, BookingItem
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated, AllowAny
 # Create your views here.
 
 
@@ -60,9 +62,13 @@ class CategoryApiView(APIView):
 
 
 class OrderApiView(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, format=None):
-        order = Booking.objects.get(id="ef373175-8752-4018-ac12-487b89538ff1")
-        serializer = OrderSerializer(order)
+        print(request.user)
+        order = Booking.objects.filter(user=request.user)
+        serializer = OrderSerializer(order, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -71,6 +77,7 @@ class OrderApiView(APIView):
         print(type(xx))
         serializer = OrderSerializer(data=xx)
         if serializer.is_valid():
+
             x = serializer.save()
             for i in xx['order_items']:
                 print(i)
