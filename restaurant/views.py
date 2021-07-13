@@ -1,4 +1,6 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, UpdateView, View
 from restaurant.models import Category, Item, RestCategory, Restaurant
 from restaurant.forms import CategoryForm, ItemForm, RestaurantForm, RestcatForm
@@ -7,8 +9,12 @@ from django.http import *
 
 # Create your views here.
 
+decorator = [login_required, ]
 
 #! Restaurent category views for web
+
+
+@method_decorator(decorator, name='dispatch')
 class RestCategoryCreate(CreateView):
     model = RestCategory
     form_class = RestcatForm
@@ -16,10 +22,12 @@ class RestCategoryCreate(CreateView):
     success_url = reverse_lazy('restcatlist')
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+        x = super().get_context_data(**kwargs)
+        x['heading'] = "Category create"
+        return x
 
 
+@method_decorator(decorator, name='dispatch')
 class RestCategoryUpdate(UpdateView):
     model = RestCategory
     form_class = RestcatForm
@@ -27,10 +35,12 @@ class RestCategoryUpdate(UpdateView):
     success_url = reverse_lazy('restcatlist')
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+        x = super().get_context_data(**kwargs)
+        x['heading'] = "Catgeory update"
+        return x
 
 
+@method_decorator(decorator, name='dispatch')
 class RestCategoryList(ListView):
     model = RestCategory
     template_name = 'restcat/list.html'
@@ -42,6 +52,7 @@ class RestCategoryList(ListView):
         return x
 
 
+@login_required(login_url='login-view')
 def restCatDel(request, id):
     if request.method == "POST":
         if id is not None:
@@ -55,6 +66,7 @@ def restCatDel(request, id):
 
 
 # ! Restaurent views
+@method_decorator(decorator, name='dispatch')
 class RestaurantCreate(CreateView):
     model = Restaurant
     form_class = RestaurantForm
@@ -67,6 +79,7 @@ class RestaurantCreate(CreateView):
         return context
 
 
+@method_decorator(decorator, name='dispatch')
 class RestaurantUpdate(UpdateView):
     model = Restaurant
     form_class = RestaurantForm
@@ -79,6 +92,7 @@ class RestaurantUpdate(UpdateView):
         return context
 
 
+@method_decorator(decorator, name='dispatch')
 class RestaurantList(ListView):
     model = Restaurant
     template_name = 'rest/list.html'
@@ -94,6 +108,7 @@ class RestaurantList(ListView):
 # ! Food category views
 
 
+@method_decorator(decorator, name='dispatch')
 class CategoryCreate(CreateView):
     model = Category
     form_class = CategoryForm
@@ -118,7 +133,13 @@ class CategoryCreate(CreateView):
             form.instance.shop = self.request.user.restaurant
         return super(CategoryCreate, self).form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        x = super().get_context_data(**kwargs)
+        x['heading'] = "category create"
+        return x
 
+
+@method_decorator(decorator, name='dispatch')
 class CategoryUpdate(UpdateView):
     model = Category
     form_class = CategoryForm
@@ -131,14 +152,16 @@ class CategoryUpdate(UpdateView):
             return reverse_lazy('cat-list-rest')
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+        x = super().get_context_data(**kwargs)
+        x['heading'] = "category update"
+        return x
 
     # def form_valid(self, form, *args, **kwargs):
     #     print(kwargs)
     #     return super().form_valid(form)
 
 
+@method_decorator(decorator, name='dispatch')
 class CategoryList(ListView):
     model = Category
     template_name = 'cat/list-rest.html'
@@ -154,14 +177,20 @@ class CategoryList(ListView):
         # print('_y'+_y)
         return _y
 
+    def get_context_data(self, **kwargs):
+        x = super().get_context_data(**kwargs)
+        x['heading'] = "Category"
+        return x
 
 #! Food items Views
 
+
+@method_decorator(decorator, name='dispatch')
 class ItemCreate(View):
     def get(self, request):
 
         x = ItemForm(user=request.user)
-        return render(request, 'form.html', {'form': x})
+        return render(request, 'form.html', {'form': x, 'heading': "create items"})
 
     def post(self, request):
 
@@ -174,11 +203,12 @@ class ItemCreate(View):
         return redirect(reverse_lazy('rest-item-list'))
 
 
+@method_decorator(decorator, name='dispatch')
 class ItemUpdate(View):
     def get(self, request, pk):
         i = Item.objects.get(id=pk)
         x = ItemForm(user=request.user, instance=i)
-        return render(request, 'form.html', {'form': x})
+        return render(request, 'form.html', {'form': x, 'heading': 'item-update'})
 
     def post(self, request, pk):
         i = Item.objects.get(id=pk)
@@ -189,6 +219,7 @@ class ItemUpdate(View):
         return redirect(reverse_lazy('rest-item-list'))
 
 
+@method_decorator(decorator, name='dispatch')
 class ItemView(View):
     def get(self, request, category=None):
         if category is not None:
@@ -228,18 +259,20 @@ class ItemView(View):
 #         }
 #         return HttpResponse(x)
 
-
+@method_decorator(decorator, name='dispatch')
 class CategoryListTest(ListView):
     def get(self, *args, **kwargs):
         print(kwargs)
         data = Category.objects.filter(
             shop__slug=kwargs['slug'])
         context = {
-            "data": data
+            "data": data,
+            'heading': 'category'
         }
         return render(self.request, "cat/list.html", context)
 
 
+@method_decorator(decorator, name='dispatch')
 class ItemListView(View):
     def get(self, request, *args, **kwargs):
         # cid = self.kwargs.get('cid')
@@ -251,11 +284,13 @@ class ItemListView(View):
         obj = Item.objects.filter(
             category__shop__user__username=request.user.username)
         context = {
-            'data': obj
+            'data': obj,
+            'heading': 'items'
         }
         return render(self.request, "item/list.html", context)
 
 
+@method_decorator(decorator, name='dispatch')
 class PendingRest(ListView):
     model = Restaurant
     template_name = "rest/listpending.html"
@@ -272,6 +307,7 @@ class PendingRest(ListView):
 # to activate the restarent from admin side
 
 
+@login_required(login_url='login-view')
 def restActivate(request, pk=None):
     if pk is not None:
         try:

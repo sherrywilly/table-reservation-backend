@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% block cardtitle %}
+<div style="display:flex;justify-content:space-between">
+    <div class="">{{heading}}</div>
+    <div class=""><a href="./create/" class="btn btn-primary btn-sm ">new</a></div>
+</div>{% endblock cardtitle %}
 {% block content %}
 <div class="table-responsive">
 
@@ -18,7 +23,7 @@
                 <td>{{i.name}}</td>
                 <td><a href="{{i.get_rest_update_url}}" class="btn btn-sm btn-info">update</a></td>
                 <td>
-                    <form method="post" action="{% url 'cat-delete'i.id %}">
+                    <form method="post" action="{% url 'cat-delete' i.id %}">
                         {% csrf_token %}
                         <input type="submit" value="delete" class="btn btn-sm btn-danger"></form></a>
                 </td>

@@ -1,5 +1,11 @@
 {% extends 'cat/base.html' %}
-{% block cardtitle %}{{heading}}{% endblock cardtitle %} {% block content %}
+{% block cardtitle %}
+
+<div style="display:flex;justify-content:space-between">
+  <div class="">{{heading}}</div>
+  <div class=""><a href="./create/" class="btn btn-primary btn-sm ">new</a></div>
+</div>
+{% endblock cardtitle %} {% block content %}
 {% for i in data %}
 <div class="row mb-4">
   <div class="col-md-12">

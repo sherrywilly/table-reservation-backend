@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'deletemod'
 
 ]
+LOGIN_URL = 'login-view'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

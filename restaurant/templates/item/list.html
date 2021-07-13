@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
-{% block cardtitle %}{{heading}}{% endblock cardtitle %}
+{% block cardtitle %}<div style="display:flex;justify-content:space-between">
+  <div class="">{{heading}}</div>
+  <div class=""><a href="./create/" class="btn btn-primary btn-sm ">new</a></div>
+</div>{% endblock cardtitle %}
 {% block content %}
 <div class="table-responsive">
   <table class="table table-bordered table-striped table-hover" id="dataTable">

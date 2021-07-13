@@ -7,10 +7,13 @@ from django.shortcuts import redirect, render
 from customer.models import Booking
 import datetime
 from core.form import *
+from core.decorators import unauth_user
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 
+@login_required(login_url='login-view')
 def DashBoard(request):
     if request.user.is_superuser:
         users = User.objects.filter(
@@ -44,6 +47,7 @@ def DashBoard(request):
     return render(request, "dashboard.html", context)
 
 
+@unauth_user
 def registration(request):
     f1 = RestaurantRegisterForm(request.POST or None, request.FILES or None)
     f2 = CustomUserCreationForm(request.POST or None)
@@ -53,9 +57,9 @@ def registration(request):
             user = f2.save(commit=False)
             user.set_password(password)
             user.is_active = False
-            user = user.save()
+            x = user.save()
             rest = f1.save(commit=False)
-            rest.user = user
+            rest.user = x
             rest.save()
         else:
             print(f1.errors, f2.errors)
@@ -67,6 +71,7 @@ def registration(request):
     return render(request, "account/register.html", context)
 
 
+@unauth_user
 def login_page(request):
     if request.method == "POST":
         uname = request.POST.get('username')
@@ -93,6 +98,7 @@ def login_page(request):
     return render(request, "account/login.html")
 
 
+@login_required(login_url='login-view')
 def location_list(request):
     x = Location.objects.all()
     context = {
@@ -102,6 +108,7 @@ def location_list(request):
     return render(request, 'loclist.html', context)
 
 
+@login_required(login_url='login-view')
 def create_loc(request):
     form = LocationForm(request.POST or None)
     if request.method == "POST":
@@ -112,11 +119,13 @@ def create_loc(request):
             print(form.errors)
 
     context = {
-        'form': form
+        'form': form,
+        'heading': "create Location"
     }
     return render(request, "form.html", context)
 
 
+@login_required(login_url='login-view')
 def update_loc(request, pk):
     x = Location.objects.get(id=pk)
     form = LocationForm(request.POST or None, instance=x)
@@ -134,6 +143,7 @@ def update_loc(request, pk):
     return render(request, "form.html", context)
 
 
+@login_required(login_url='login-view')
 def deleteLoc(request, pk):
     if request.method == "POST":
         Location.objects.get(id=pk).delete()

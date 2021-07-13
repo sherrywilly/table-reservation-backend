@@ -1,3 +1,5 @@
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import View, ListView, DetailView, UpdateView, CreateView
 from customer.models import Booking, BookingItem, Rating
@@ -9,11 +11,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from customer.forms import UserForm, RestUserForm
 from restaurant.models import *
+from django.utils.decorators import method_decorator
 # Create your views here.
 
-
+decorator = [login_required, ]
 #! booking views
 
+
+@method_decorator(decorator, name='dispatch')
 class OrderList(View):
     def get(self, request):
         if not request.user.is_superuser and request.user.is_staff:
@@ -36,6 +41,7 @@ class OrderList(View):
             return render(request, "booking/complist.html", context)
 
 
+@method_decorator(decorator, name='dispatch')
 class OrderDetailView(DetailView):
     model = Booking
     template_name = "booking/detail.html"
@@ -53,6 +59,7 @@ class OrderDetailView(DetailView):
         return context
 
 
+@method_decorator(decorator, name='dispatch')
 class OrderUpdate(View):
     def get(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
@@ -81,6 +88,7 @@ class OrderUpdate(View):
             return HttpResponseRedirect(reverse('order-update', kwargs={"pk": kwargs.get('pk')}))
 
 
+@method_decorator(decorator, name='dispatch')
 class ChangePass(View):
     def get(self, request):
         form = PasswordChangeForm(user=request.user)
@@ -100,6 +108,7 @@ class ChangePass(View):
             return HttpResponseRedirect(reverse('pass-change'))
 
 
+@method_decorator(decorator, name='dispatch')
 class ProfileView(View):
     def get(self, request):
         try:
@@ -140,6 +149,7 @@ class ProfileView(View):
             return HttpResponseBadRequest("some thing went wrong")
 
 
+@login_required(login_url='login-view')
 def restCatList(request):
     try:
         _x = Category.objects.filter(shop__user=request.user)
@@ -152,6 +162,7 @@ def restCatList(request):
     return render(request, 'rest-cat-list.html', context)
 
 
+@login_required(login_url='login-view')
 def PendingOrders(request):
     if not request.user.is_superuser and request.user.is_staff:
         data = Booking.objects.filter(
@@ -173,6 +184,7 @@ def PendingOrders(request):
         return render(request, "booking/list.html", context)
 
 
+@login_required(login_url='login-view')
 def CompletedOrders(request):
     if not request.user.is_superuser and request.user.is_staff:
         data = Booking.objects.filter(
@@ -193,6 +205,7 @@ def CompletedOrders(request):
         return render(request, "booking/complist.html", context)
 
 
+@login_required(login_url='login-view')
 def ConfirmedOrders(request):
     if not request.user.is_superuser and request.user.is_staff:
         data = Booking.objects.filter(

@@ -84,7 +84,7 @@
       {% endif %}
       {% if not  request.user.is_superuser and request.user.is_staff %}
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'dashboard' %}">
+        <a class="nav-link" href="{% url 'cat-list-rest' %}">
           <i class="fas fa-fw fa fa-grav"></i>
           <span>Category</span>
         </a>
@@ -145,7 +145,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'pass-change' %}">
+        <a class="nav-link" href="{% url 'logout-view' %}">
           <i class="fas fa-fw fa fa-sign-out"></i>
           <span>logout</span>
         </a>

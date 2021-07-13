@@ -39,7 +39,7 @@
                                             Register To Restaurant Reservation System!
                                         </h1>
                                     </div>
-                                    <form class="user" method="post">
+                                    <form class="user" method="post" nctype="multipart/form-data">
                                         {% csrf_token %}
                                         {{form1 |crispy}}
                                         {{form2 |crispy}}
