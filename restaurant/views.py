@@ -1,3 +1,4 @@
+from core.decorators import auth_user
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
@@ -9,7 +10,7 @@ from django.http import *
 
 # Create your views here.
 
-decorator = [login_required, ]
+decorator = [auth_user, ]
 
 #! Restaurent category views for web
 
@@ -52,7 +53,7 @@ class RestCategoryList(ListView):
         return x
 
 
-@login_required(login_url='login-view')
+@auth_user
 def restCatDel(request, id):
     if request.method == "POST":
         if id is not None:
@@ -194,7 +195,8 @@ class ItemCreate(View):
 
     def post(self, request):
 
-        x = ItemForm(user=request.user, data=request.POST)
+        x = ItemForm(user=request.user, data=request.POST,
+                     files=request.FILES)
         if x.is_valid():
             _f = x.save(commit=False)
             _f.created_by = request.user
@@ -212,7 +214,8 @@ class ItemUpdate(View):
 
     def post(self, request, pk):
         i = Item.objects.get(id=pk)
-        x = ItemForm(user=request.user, data=request.POST, instance=i)
+        x = ItemForm(user=request.user, data=request.POST,
+                     files=request.FILES, instance=i)
         if x.is_valid():
             x.save()
 
@@ -307,7 +310,7 @@ class PendingRest(ListView):
 # to activate the restarent from admin side
 
 
-@login_required(login_url='login-view')
+@auth_user
 def restActivate(request, pk=None):
     if pk is not None:
         try:

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block cardtitle %}
+<div class="">{{heading}}</div>
+
+{% endblock cardtitle %}
+{% block content %}
+<div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover" id="dataTable">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>email</th>
+
+                <th>delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in data %}
+            <tr>
+                <td>1</td>
+
+                <td>{{i.username}}</td>
+                <td>{{i.email }}</td>
+                <td>{{i.category.name}}</td>
+
+                <td>
+                    <form method="post" action="{% url 'item-delete' i.id%}">
+                        {% csrf_token %}<input type="submit" value="delete" class="btn btn-sm btn-danger"></form></a>
+                </td>
+
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock content %}

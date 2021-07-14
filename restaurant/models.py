@@ -111,7 +111,17 @@ class Item(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name='items', blank=True, null=True)
     # image fierld required
+    img = models.ImageField(upload_to='item/', blank=True,
+                            null=True, verbose_name="Image")
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def get_img(self):
+        try:
+            url = self.img.url
+        except:
+            url = ''
+
+        return url
 
     def __str__(self):
         return self.name
