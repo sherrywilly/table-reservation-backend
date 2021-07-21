@@ -44,6 +44,13 @@ def logout_view(request):
 
 
 @auth_user
+def UserDelete(request, pk):
+    if request.method == "POST":
+        User.objects.get(id=pk).delete()
+    return redirect(reverse("user-list"))
+
+
+@auth_user
 def users_view(request):
     users = User.objects.filter(is_active=True).exclude(
         is_superuser=True, is_staff=True).filter(restaurant__isnull=True)

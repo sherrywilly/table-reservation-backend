@@ -300,7 +300,7 @@ class PendingRest(ListView):
     context_object_name = "data"
 
     def get_queryset(self):
-        return Restaurant.objects.filter(user__is_staff=False, user__is_active=False)
+        return Restaurant.objects.filter(user__is_staff=False)
 
     def get_context_data(self, **kwargs):
         x = super().get_context_data(**kwargs)

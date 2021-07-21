@@ -18,15 +18,15 @@
         <tbody>
             {% for i in data %}
             <tr>
-                <td>1</td>
+                <td>{{forloop.counter}}</td>
 
                 <td>{{i.username}}</td>
                 <td>{{i.email }}</td>
                 <td>{{i.category.name}}</td>
 
                 <td>
-                    <form method="post" action="{% url 'item-delete' i.id%}">
-                        {% csrf_token %}<input type="submit" value="delete" class="btn btn-sm btn-danger"></form></a>
+                    <form method="post" action="{% url 'user-delete' i.id %}">
+                        {% csrf_token %}<input type="submit" value="delete" class="btn btn-sm btn-danger"></form>
                 </td>
 
             </tr>

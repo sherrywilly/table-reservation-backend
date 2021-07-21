@@ -1,5 +1,6 @@
 from django.contrib.auth import login
 from django.contrib import messages
+from django.contrib.messages.api import error
 from django.db.models.query_utils import Q
 from restaurant.models import Restaurant
 from django.contrib.auth.models import User
@@ -63,8 +64,11 @@ def registration(request):
             print(x)
             rest.user = user
             rest.save()
+            messages.success(
+                "you are successfully registred into the system please wait for admin confirmation")
         else:
-            print(f1.errors, f2.errors)
+            messages.error(request, f2.errors)
+            messages.error(request, f1.errors)
 
     context = {
         'form1': f1,

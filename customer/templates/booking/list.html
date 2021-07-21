@@ -12,6 +12,7 @@
         <th>date</th>
         <th>time</th>
         <th>status</th>
+        <th>view</th>
         <th>update</th>
       </tr>
     </thead>
@@ -23,7 +24,12 @@
         <td>{{i.restaurant.name}}</td>
         <td>{{i.date}}</td>
         <td>{{i.time}}</td>
+        
         <td>{{i.order_status}}</td>
+         <td>
+                                <a href="{{i.get_absolute_url}}"
+                                    class="btn btn-sm btn-primary font-weight-bold">view</a>
+                            </td>
         <td>
           <a href="{{i.update_url}}" class="btn btn-sm btn-info font-weight-bold">update</a>
         </td>

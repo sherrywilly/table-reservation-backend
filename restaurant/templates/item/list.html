@@ -20,7 +20,7 @@
     <tbody>
       {% for i in data %}
       <tr>
-        <td>1</td>
+        <td>{{forloop.counter}}</td>
         <td>
           <div class="" height="20"><img src="{{i.get_img }}" alt="image" height="20" width="20" /></div>
         </td>

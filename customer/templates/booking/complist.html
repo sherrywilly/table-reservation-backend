@@ -12,6 +12,7 @@
                 <th>date</th>
                 <th>time</th>
                 <th>status</th>
+                <th>view</th>
 
             </tr>
         </thead>
@@ -24,6 +25,10 @@
                 <td>{{i.date}}</td>
                 <td>{{i.time}}</td>
                 <td>{{i.order_status}}</td>
+                 <td>
+                                <a href="{{i.get_absolute_url}}"
+                                    class="btn btn-sm btn-primary font-weight-bold">view</a>
+                            </td>
 
             </tr>
             {% endfor %}
